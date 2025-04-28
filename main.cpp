@@ -4,7 +4,7 @@
 
 #include "CartaObjetivo.h"
 #include "Jugador.h"
-
+#include "Loseta.h"
 
 int main() {
     srand(time(NULL));  //Establecemos la semilla que utilizaremos para la generación de números aleatorios
@@ -22,6 +22,4 @@ int main() {
         jugador.imprimir();                 //Imprimimos su información
         jugador.~Jugador();                 //Lo eliminamos
     }
-
-    return 0;
 }

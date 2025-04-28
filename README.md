@@ -2,9 +2,9 @@
 Proyecto programado #1:  TAKENOKO 
 
 Estudiantes:
-    -Alejandro Guerra Rodríguez - C13451
-    -Jose Loria Wong - 
-    -Jaffet
+    -Alejandro Guerra Rodríguez C13451
+    -Jose Loria Wong 
+    -Jaffet Araya Góngora C4C537
 
 
 Suposiciones realizadas/Consideraciones generales:
@@ -19,6 +19,9 @@ Suposiciones realizadas/Consideraciones generales:
             -Estructura: [cantidad de bambu, color del bambu]
         ->La evaluación de los bambús recolectados en las cartas objetivo, se hará de manera ordenada. Es decir, se evalúa la primera, luego la segunda, luego la tercera y luego la cuarta.
     -Los colores se trabajarán como enteros. Es decir: color 0, color 1 y color 2.
+    -Losetas:
+        -La matriz base es de dimensión 30x30
+        
 
 
 Pendiente:

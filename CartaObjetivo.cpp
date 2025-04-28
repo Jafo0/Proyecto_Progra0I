@@ -1,11 +1,10 @@
 #include <iostream>
 #include "CartaObjetivo.h"
-#include <cstdlib>              //Para poder usar std::rand
+#include <cstdlib>                          //Para poder usar std::rand
 
 using std::cout;
 using std::endl;
                  
-
 CartaObjetivo::CartaObjetivo(char _tipo){   //Constructor
     this->tipo = _tipo;                     //Defino el tipo de carta objetivo (panda/jardinero)
     this->puntaje = (rand() % 4) + 1;       //Defino mi puntaje aleatorio entre 1 y 4. La semilla se define en el main
@@ -55,4 +54,3 @@ void CartaObjetivo::imprimir(std::string nombre_carta){
         }
     }
 }
-
