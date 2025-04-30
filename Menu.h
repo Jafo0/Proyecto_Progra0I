@@ -10,6 +10,5 @@ public:
     void setEleccion_actual(int);
     int getEleccion_actual();
     int desplegar();
-}
-
+};
 #endif //MENU_H
