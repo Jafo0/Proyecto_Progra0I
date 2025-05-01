@@ -14,79 +14,16 @@ Loseta::Loseta(char tipo_e): tipo_loseta(tipo_e){
     }
     
 }   
-//Loseta::~Loseta(){}
-
+Loseta::~Loseta(){}
 //crecer y decrecer bambu
 void Loseta::crecer_bambu() {
     if (this->tipo_loseta != 'E'){
         this->cantidad_bambu++;
     }
 }
-
 void Loseta::decrecer_bambu(){
-    if (this->cantidad_bambu<0 && this->tipo_loseta != 'E'){
+    if (this->cantidad_bambu>0 && this->tipo_loseta != 'E'){
         this->cantidad_bambu--;
-    }
-}
-//conecciones de loseta
-void Loseta::conectar_superior(Loseta* loseta_superior){
-    if (this == loseta_superior) return;                 //ya hay conexion 
-    if (this->superior != nullptr){                      //sin conexion con la central
-        this->superior->inferior = nullptr;
-    }
-    this->superior = loseta_superior;
-    if (loseta_superior != nullptr){
-        loseta_superior->inferior = this;                //conexion con loseta central
-    }
-}
-void Loseta::conectar_inferior(Loseta* loseta_inferior){
-    if (this == loseta_inferior) return;
-    if (this->inferior != nullptr){
-        this->inferior->superior = nullptr;
-    }
-    this->inferior = loseta_inferior;
-    if (loseta_inferior != nullptr){
-        loseta_inferior->superior = this;
-    }
-}
-void Loseta::conectar_izquierda_arriba(Loseta* loseta_izquierda_arriba){
-    if (this == loseta_izquierda_arriba) return;
-    if(this->izquierda_arriba!= nullptr){
-        this->izquierda_arriba->derecha_abajo = nullptr;
-    }
-    this->izquierda_arriba = loseta_izquierda_arriba;
-    if (loseta_izquierda_arriba != nullptr){
-        loseta_izquierda_arriba->derecha_abajo = this;
-    }
-}
-void Loseta::conectar_izquierda_abajo(Loseta* loseta_izquierda_abajo) {
-    if (this == loseta_izquierda_abajo) return;
-    if (this->izquierda_abajo != nullptr) {
-        this->izquierda_abajo->derecha_arriba = nullptr;
-    }
-    this->izquierda_abajo = loseta_izquierda_abajo;
-    if (loseta_izquierda_abajo != nullptr) {
-        loseta_izquierda_abajo->derecha_arriba = this;
-    }
-}
-void Loseta::conectar_derecha_arriba(Loseta* loseta_derecha_arriba) {
-    if (this == loseta_derecha_arriba) return;
-    if (this->derecha_arriba != nullptr) {
-        this->derecha_arriba->izquierda_abajo = nullptr;
-    }
-    this->derecha_arriba = loseta_derecha_arriba;
-    if (loseta_derecha_arriba != nullptr) {
-        loseta_derecha_arriba->izquierda_abajo = this;
-    }
-}
-void Loseta::conectar_derecha_abajo(Loseta* loseta_derecha_abajo) {
-    if (this == loseta_derecha_abajo) return;
-    if (this->derecha_abajo != nullptr) {
-        this->derecha_abajo->izquierda_arriba = nullptr;
-    }
-    this->derecha_abajo = loseta_derecha_abajo;
-    if (loseta_derecha_abajo != nullptr) {
-        loseta_derecha_abajo->izquierda_arriba = this;
     }
 }
 /*
