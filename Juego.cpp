@@ -1,14 +1,17 @@
 #include "Juego.h"
-#include "Jugador.h"
 
 #include <iostream>
 #include <string>
+#include <cstdlib>
 
 using std::cout;
 using std::cin;
 using std::endl;
 
-Juego::Juego(int dimension): dimension_tablero(dimension){
+Juego::Juego(std::string nombre_j1, std::string nombre_j2, int dimension): dimension_tablero(dimension){
+    this->j1 = new Jugador(nombre_j1);
+    this->j2 = new Jugador(nombre_j2);
+
     //Creo mi tablero
     this->tablero = new Loseta**[dimension];
     for(int i = 0; i<dimension; i++){
@@ -31,7 +34,15 @@ Juego::Juego(int dimension): dimension_tablero(dimension){
 
 Juego::~Juego(){}
 
-void Juego::imprimir_tablero(){
+void Juego::mostrar_estado_del_juego(){
+    system("cls");      // Limpio la pantalla
+    // Información de los jugadores: 
+    this->j1->imprimir();
+    this->j2->imprimir();
+    cout<<endl;
+    
+    // Información del tablero:
+    cout<<"\n"<<"----------------------------------------------"<<"Tablero"<<"----------------------------------------------"<<endl;
     for(int i = 0; i < this->dimension_tablero; i++){                   // Recorremos filas
         if(i%2 != 0){cout<<"   ";}
         for(int j = 0; j < this->dimension_tablero; j++){               // Recorremos columnas
@@ -43,6 +54,14 @@ void Juego::imprimir_tablero(){
         }
         cout<<endl;
     }
+}
+
+void Juego::definir_fin_del_juego(){
+    int decision;
+    cout<<"Desea finalizar el juego(1.Si / 2.No)?: ";
+    cin>>decision;
+    if(decision == 1){this->fin_del_juego = true;}
+
 }
 
 void Juego::crecer_jardin(){
@@ -119,33 +138,48 @@ void Juego::usar_panda(){
     }
 }
 
-void Juego::jugar(std::string nombre_j1, std::string nombre_j2){
-    Jugador* j1 = new Jugador(nombre_j1);
-    Jugador* j2 = new Jugador(nombre_j2);
-    while(true){
-        j1->imprimir();
-        j2->imprimir();
-        imprimir_tablero();
+void Juego::realizar_accion(){
+    int eleccion = this->menu->desplegar();
 
-        int eleccion = this->menu->desplegar();
+    switch(eleccion) 
+        case 1: {// Crecer Jardin. 
+            crecer_jardin();
+            break;
+        case 2: // Regar loseta
+            regar_loseta();
+            break;
+        case 3: // Usar jardinero
+            usar_jardinero();
+            break;
+        case 4: // Mover panda
+            usar_panda();
+            break;
+        // No ocupamos caso default porque la función de desplegar ya se asegura obtener un valor entre el 1 y el 5
+    }
 
-        switch(eleccion) 
-            case 1: {// Crecer Jardin. 
-                crecer_jardin();
-                break;
-            case 2: // Regar loseta
-                regar_loseta();
-                break;
-            case 3: // Usar jardinero
-                usar_jardinero();
-                break;
-            case 4: // Mover panda
-                usar_panda();
-                break;
-            case 5: //Terminar juego
-                cout << "Fin del juego" << endl;
-                return;
-            // No ocupamos caso default porque la función de desplegar ya se asegura obtener un valor entre el 1 y el 5
+}
+
+void Juego::jugar(){
+    int ronda = 1;
+
+    while(!this->fin_del_juego){
+        definir_fin_del_juego();
+        if(!this->fin_del_juego){
+            cout<<"------------------------------------------------------------------------------------------------------------------"<<endl;
+            cout<<"                                                Ronda: "<<ronda<<endl;
+            cout<<"------------------------------------------------------------------------------------------------------------------"<<endl;
+            for(int i = 1; i < 3; i++){
+                mostrar_estado_del_juego();
+                cout<<"\nTurno de: "<<this->j1->get_nombre()<<"\t|\tAccion #: "<<i<<endl;
+                realizar_accion();
+            }
+            for(int j = 1; j < 3; j++){
+                mostrar_estado_del_juego();
+                cout<<"\nTurno de: "<<this->j2->get_nombre()<<"\t|\tAccion #: "<<j<<endl;
+                realizar_accion();
+
+            }
+            ronda++;
         }
     }
 }

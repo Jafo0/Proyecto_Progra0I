@@ -1,5 +1,6 @@
 #include "Menu.h"
 #include "Loseta.h"
+#include "Jugador.h"
 
 #include <iostream>
 #include <string>
@@ -16,19 +17,26 @@ class Juego{
     int panda[2] {-1,-1};
     int jardinero[2] {-1,-1};
     int dimension_tablero;
-
+    Jugador* j1;
+    Jugador* j2;
+    bool fin_del_juego {false};
 
     public:
-    Juego(int dimension);
+    Juego(std::string nombre_j1, std::string nombre_j2, int dimension);
     ~Juego();
+
+    void imprimir_tablero();
+    void mostrar_estado_del_juego();
+    void definir_fin_del_juego();
 
     void crecer_jardin();
     void regar_loseta();
     void usar_jardinero();
     void usar_panda();
+    void realizar_accion();
 
-    void jugar(std::string nombre_j1, std::string nombre_j2);
-    void imprimir_tablero();
+    void jugar();
+    
 };
 
 

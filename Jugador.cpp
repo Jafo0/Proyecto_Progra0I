@@ -4,7 +4,6 @@ using std::cout;
 using std::endl;
 
 Jugador::Jugador(std::string _nombre): nombre(_nombre){
-    this->turno = 1;
     for(int i = 0; i < 3; i++){this->bambus_almacenados[i] = 0;}    //Iniciamos sin bambus almacenados
 
     //Definimos las cartas objetivos
@@ -21,6 +20,8 @@ Jugador::~Jugador(){
     }
     delete[] cartas_jugador;       // Elimino el array de punteros
 }
+
+std::string Jugador::get_nombre(){return this->nombre;}
 
 void Jugador::imprimir(){
     cout<<"\n"<<"--------------------------------------"<<"Jugador: "<<this->nombre<<"--------------------------------------"<<endl;

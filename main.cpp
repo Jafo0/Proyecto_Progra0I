@@ -32,8 +32,8 @@ int main() {
         cin>>dimension;
         cout<<endl;
 
-        Juego* juego = new Juego(dimension);
-        juego->jugar(nombre_j1, nombre_j2);
+        Juego* juego = new Juego(nombre_j1, nombre_j2, dimension);
+        juego->jugar();
 
     }
 }
