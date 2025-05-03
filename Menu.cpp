@@ -4,52 +4,30 @@
 using namespace std;
 
 Menu::Menu(){}
-
-void Menu::setEleccion_actual(int eleccion_nueva){this->eleccion_actual = eleccion_nueva;}
-
-int Menu::getEleccion_actual(){return this->eleccion_actual;}
+Menu::~Menu(){}
 
 int Menu::desplegar()
 {
-    int acciones = 0;
-    int entrada = 0;
+    int eleccion {0};
 
-    while (acciones < 1)
-    {
-                cout <<"\n---------------------------------------------------------"<<endl;
-        cout << "Tiene 2 acciones este turno. Elija su opcion preferida: "<<endl;
+    cout <<"\n------------------Opciones Disponibles------------------"<<endl;
         cout << "1. Crecer jardin"<<endl;
         cout << "2. Regar una loseta"<<endl;
         cout << "3. Usar al jardinero"<<endl;
         cout << "4. Mover al panda"<<endl;
+        cout << "5. Terminar el juego"<<endl;
 
-        cin >> entrada;
-        try
-        {
-            switch (entrada)
-            {
-            case 1: setEleccion_actual(entrada);
-                acciones++;
-                break;
-            case 2: setEleccion_actual(entrada);
-                acciones++;
-                break;
-            case 3: setEleccion_actual(entrada);
-                acciones++;
-                break;
-            case 4: setEleccion_actual(entrada);
-                acciones++;
-                break;
-            default: cout << "Opcion invalida. Vuelva a intentar" << endl;
-                break;
-            }
+        cout << "\nIndique la accion por realizar: ";
 
-        }catch (exception ex)
-        {
+    while (true){
+        cin >> eleccion; 
+
+        if(1<=eleccion && eleccion<=5){ // Elección válida
+            break;  
+        }else{
             cout << "Opcion invalida. Vuelva a intentar" << endl;
+            cout << "\nIndique la accion por realizar: ";
         }
     }
-
-    return entrada;
+    return eleccion;
 }
-
