@@ -3,9 +3,8 @@
 using std::cout; 
 using std::endl;
 
-Jugador::Jugador(std::string _nombre){
-    this->nombre = _nombre;             //Defino el nombre
-    this->puntos = 0;                   //Iniciamos sin puntos
+Jugador::Jugador(std::string _nombre): nombre(_nombre){
+    this->turno = 1;
     for(int i = 0; i < 3; i++){this->bambus_almacenados[i] = 0;}    //Iniciamos sin bambus almacenados
 
     //Definimos las cartas objetivos
@@ -17,17 +16,21 @@ Jugador::Jugador(std::string _nombre){
 }
 
 Jugador::~Jugador(){
+    for(int i = 0; i < 4; ++i) {
+        delete cartas_jugador[i];  // Elimino cada objeto
+    }
+    delete[] cartas_jugador;       // Elimino el array de punteros
 }
 
 void Jugador::imprimir(){
-    cout<<"\n---------------------------------------------------------"<<endl;
-    cout<<"Jugador: "<<this->nombre<<endl;
-    cout<<"Puntos: "<<this->puntos<<endl;
-    cout<<"Cartas: "<<endl;
+    cout<<"\n"<<"--------------------------------------"<<"Jugador: "<<this->nombre<<"--------------------------------------"<<endl;
+    cout<<"Puntaje Acumulado: "<<this->puntos<<endl;
 
+    std::string nombre_carta;
+    cout<<"Cartas: "<<endl;
     for(int i = 0; i < 4; i++){
-        std::string nombre_carta = "Carta";
-        nombre_carta += std::to_string(i);
-        (*this->cartas_jugador[i]).imprimir(nombre_carta);
-    }   
+        nombre_carta = "";
+        nombre_carta = "C" + std::to_string(i+1);
+        this->cartas_jugador[i]->imprimir(nombre_carta);
+    }  
 }
