@@ -15,7 +15,6 @@ int Menu::desplegar()
         cout << "2. Regar una loseta"<<endl;
         cout << "3. Usar al jardinero"<<endl;
         cout << "4. Mover al panda"<<endl;
-        cout << "5. Terminar el juego"<<endl;
 
         cout << "\nIndique la accion por realizar: ";
 

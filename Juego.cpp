@@ -168,15 +168,16 @@ void Juego::jugar(){
             cout<<"------------------------------------------------------------------------------------------------------------------"<<endl;
             cout<<"                                                Ronda: "<<ronda<<endl;
             cout<<"------------------------------------------------------------------------------------------------------------------"<<endl;
+            mostrar_estado_del_juego();
             for(int i = 1; i < 3; i++){
-                mostrar_estado_del_juego();
                 cout<<"\nTurno de: "<<this->j1->get_nombre()<<"\t|\tAccion #: "<<i<<endl;
                 realizar_accion();
+                mostrar_estado_del_juego();
             }
             for(int j = 1; j < 3; j++){
-                mostrar_estado_del_juego();
                 cout<<"\nTurno de: "<<this->j2->get_nombre()<<"\t|\tAccion #: "<<j<<endl;
                 realizar_accion();
+                mostrar_estado_del_juego();
 
             }
             ronda++;
