@@ -2,6 +2,8 @@
 #define LOSETA_H
 
 #include <iostream>
+#include <cstdlib>  //para rand
+#include <ctime>    //para time
 
 class Loseta{
 private:                                // Jugador solo puede poner loseta 'N'
