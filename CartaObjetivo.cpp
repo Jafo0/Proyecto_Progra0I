@@ -1,6 +1,6 @@
 #include <iostream>
 #include "CartaObjetivo.h"
-#include <cstdlib>                          //Para poder usar std::rand
+#include <cstdlib>               //Para poder usar std::rand
 
 using std::cout;
 using std::endl;
@@ -36,21 +36,12 @@ int CartaObjetivo::getPuntaje(){
 
 void CartaObjetivo::imprimir(std::string nombre_carta){
     //Encabezado
-    cout.fill('-'); cout.width(20); cout <<"";
-    cout << nombre_carta;
-    cout.fill('-'); cout.width(20); cout <<""<<endl;
-
-    //Tipo y puntaje
-    cout<<"Tipo : "<<this->tipo;
-    cout <<"\t\t| ";
-    cout<<"Puntaje : "<< this->puntaje<<"\n"<<endl;
+    cout<<"\t"<<nombre_carta<<":\tTipo:"<<this->tipo<<"\t\tPuntaje:"<<this->puntaje<<"\t Meta:";
 
     //Bambús meta
     if(this -> tipo == 'J'){
-        std::cout<<"Cantidad de Bambu : "<<this->bambu_meta[0]<<"\t| Color : "<<this->bambu_meta[1]<<std::endl;
+        cout<<"["<<this->bambu_meta[0]<<", "<<this->bambu_meta[1]<<"]\t\tEstructura: [#bambu, color de bambu]"<<endl;
     }else{
-        for(int i = 0; i < 3; i++){
-            std::cout<<"Cantidad de Bambu : "<<this->bambu_meta[i]<<"\t| Color : "<<i<<std::endl;
-        }
+        cout<<"["<<this->bambu_meta[0]<<", "<<this->bambu_meta[1]<<", "<<this->bambu_meta[2]<<"]\t\tEstructura: [#bambu color 1, #bambu color 2, #bambu color 3]"<<endl;
     }
 }

@@ -1,6 +1,6 @@
 #ifndef CARTAOBJETIVO_H
 #define CARTAOBJETIVO_H
-#include <string>
+
 class CartaObjetivo{
     
 private:
