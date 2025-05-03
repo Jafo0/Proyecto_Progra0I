@@ -1,108 +1,99 @@
 #include "Loseta.h"
 #include <iostream>
+#include <string>
+
+using std::cout;
+using std::endl;
 
 Loseta::Loseta(char tipo_e): tipo_loseta(tipo_e){
 
     if (this->tipo_loseta == 'E') {                 
         this->irrigado = true;           
-        this->color= 0;                    //0 para gris (estanque)
-        this->cantidad_bambu = 0;          // Las losetas Estanque no permiten el crecimiento de bambú
+        this->color= 3;                         // 3 para gris (estanque)
+        this->cantidad_bambu = 0;               // Las losetas Estanque no permiten el crecimiento de bambú
+        this->esta_jardinero = true;
+        this->esta_panda = true;
     } else {
-        this->irrigado = false;            // Las losetas normales no están irrigadas inicialmente
-        this->cantidad_bambu = 0;          // inicia en 0 debido a que el Jardinero no ha estado
-        this->color = (std::rand() % 3) + 1;
+        this->irrigado = false;                 // Las losetas normales no están irrigadas inicialmente
+        this->cantidad_bambu = 0;               // inicia en 0 debido a que el Jardinero no ha estado
+        this->color = (std::rand() % 3) + 0;    // El color es algún número entre el 0 y el 2
     }
-    
 }   
+
 Loseta::~Loseta(){}
+
+char Loseta::get_tipo(){return this->tipo_loseta;}
+
+int Loseta::get_color(){return this->color;}
+
+bool Loseta::get_irrigado(){return this->irrigado;}
+
+int Loseta::get_cantidad_bambu(){return this->cantidad_bambu;}
+
+
+void Loseta::set_esta_jardinero(bool nuevo_valor){this->esta_jardinero = nuevo_valor;}
+
+void Loseta::set_esta_panda(bool nuevo_valor){this->esta_panda = nuevo_valor;}
+
 //crecer y decrecer bambu
 void Loseta::crecer_bambu() {
-    if (this->tipo_loseta != 'E'){
+    if (this->tipo_loseta != 'E' && this->irrigado && this->cantidad_bambu < 4 && this->esta_jardinero){
         this->cantidad_bambu++;
     }
 }
+
 void Loseta::decrecer_bambu(){
-    if (this->cantidad_bambu>0 && this->tipo_loseta != 'E'){
+    if (this->cantidad_bambu>0 && this->esta_panda){
         this->cantidad_bambu--;
     }
 }
-/*
-void Loseta::iniciar_centro(){
-    int fila_centro = N/2;
-    int col_centro = N/2;
-    if (matriz[fila_centro][col_centro] == nullptr) {
-        matriz[fila_centro][col_centro] = new Loseta('E');  //HICE UN NEW
+
+void Loseta::irrigar(){this->irrigado = true;}
+
+void Loseta:: imprimir_loseta(int i, int j){
+    /*
+    Opciones:
+        __ij__
+        __ij*_
+        _ij*4_
+    */
+   //Paso 0: Identifico si está el jardinero
+   if(this->esta_jardinero){
+        cout<<"\033[4m"; // Texto subrayado
+   }
+   if(this->esta_panda){
+    cout<<"\033[9m"; // Texto tachado
     }
+
+   // Paso 1: Defino el color
+   switch(this->color) {
+    case 0:
+    cout<<"\033[33m"; // Amarillo
+        break;
+    case 1:
+    cout<<"\033[35m"; // Rosado
+        break;
+    case 2:
+    cout<<"\033[32m"; // Verde
+        break;
+    case 3:
+    cout<<"\033[34m"; // Azul
+        break;
+    default:
+    cout<<"\033[97m"; // Blanco
+    }
+
+   // Paso 2: Defino el contenido
+   std::string texto = std::to_string(i) + std::to_string(j);
+   if(this->tipo_loseta == 'E'){    //Si es la loseta estanque
+        texto = "  " + texto + "  ";
+   }else if(!this->irrigado){       //Si no está irrigada
+        texto = "  " + texto + "  ";
+   }else if(this->cantidad_bambu == 0){ //Irrigada pero sin bambú
+        texto = "  " + texto + "* ";
+   }else{   //Irrigada y con bambú
+        texto = " " + texto + "*" + std::to_string(this->cantidad_bambu);
+   }
+   // Paso 3: Imprimo, cierro el color y cierro el panda/jardinero
+   cout<<texto<<"\033[0m\033[0m"; 
 }
-
-
-void Loseta::agregar_loseta(){
-    int fila_a, col_a;
-    char eleccion;
-
-    std::cout << "Indica la fila de la loseta desde donde agregar: ";     //buscar loseta desde donde agregar
-    std::cin >> fila_a;
-    std::cout << "Indica la columna de la loseta desde donde agregar: ";
-    std::cin >> col_a;
-
-    if (fila_a < 0 || fila_a >= N || col_a < 0 || col_a >= N || matriz[fila_a][col_a] == nullptr) {
-        std::cout << "No hay loseta en esa posición.\n";
-        return;
-    }
-    std::cout << "Indique la direccion en la que vas a agregar la nueva loseta \n";
-    std::cout << "A= arriba ( "<<fila_a-1<<" , "<<col_a<<" )\n";
-    std::cout << "B= arriba derecha ( "<<fila_a-1<<" , "<<col_a+1<<" )\n";
-    std::cout << "C= arriba izquierda ( "<<fila_a-1<<" , "<<col_a-1<<" )\n";
-    std::cout << "D= abajo ( "<<fila_a+1<<" , "<<col_a<<" )\n";
-    std::cout << "E= abajo derecha ( "<<fila_a+1<<" , "<<col_a+1<<" )\n";
-    std::cout << "F= abajo izquierda ( "<<fila_a+1<<" , "<<col_a-1<<" )\n";
-
-    std::cout<<"Elige una opcion de A-F: "<<std::endl;
-    std::cin >> eleccion;
-    switch(eleccion){
-        case 'A': case 'a':
-            fila_a -= 1;
-            break;
-        case 'B': case 'b':
-            fila_a -=1;
-            col_a +=1;
-            break;
-        case 'C': case 'c':
-            fila_a -=1;
-            col_a -=1;
-            break;
-        case 'D': case 'd':
-            fila_a += 1;
-            break;
-        case 'E': case 'e':
-            fila_a += 1;
-            col_a +=1;
-            break;
-        case 'F': case 'f':
-            fila_a += 1;
-            col_a -=1;
-            break;
-        default:
-            std::cout << "Opción inválida"<<std::endl;
-            return;
-    }
-    if (fila_a >= 0 && fila_a < N && col_a >= 0 && col_a < N && matriz[fila_a][col_a] == nullptr) {
-        matriz[fila_a][col_a] = new Loseta('N');       // New loseta normal
-        std::cout << "Loseta agregada en (" << fila_a << ", " << col_a << ")\n";
-    } else {
-        std::cout << "Esa posición ya está ocupada o fuera de la matriz.\n";
-    }
-}
-void Loseta::mostrar_matriz(){
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            if (matriz[i][j] != nullptr) {             //Muestro tipo( deberia mostrar tambien irrigado, cantbambu?)
-                std::cout << "[" << matriz[i][j]->tipo_loseta << "] ";  
-            } else {
-                std::cout << "[ ] ";                   // Espacio vacío si no hay loseta
-            }
-        }
-        std::cout << std::endl;                        // Nueva línea al final de cada fila
-    }
-}
-*/

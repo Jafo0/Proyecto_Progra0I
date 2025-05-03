@@ -1,22 +1,32 @@
 #ifndef LOSETA_H
 #define LOSETA_H
-#include <iostream>
-#include <string>
-#include <cstdlib>  //para rand
-#include <ctime>    //para time
 
-const int N = 30;
+#include <iostream>
+
 class Loseta{
-private:                          //Jugador solo puede poner loseta 'N'
-    char tipo_loseta;             //el tipo: si es loseta normal 'N' o loseta estanque 'E'  
-    int color{0};                 //Estructura: [loseta color 0 estanque, loseta color 1, loseta color 2, loseta color 3, 
+private:                                // Jugador solo puede poner loseta 'N'
+    char tipo_loseta;                   //el tipo: si es loseta normal 'N' o loseta estanque 'E' 
+    int color{3};                       //Estructura: [loseta color 0, loseta color 1, loseta color 2, loseta color 3 estanque,
     bool irrigado;                
-    int cantidad_bambu;
+    int cantidad_bambu;                 // Todas inician sin bambu
+    bool esta_jardinero {false};
+    bool esta_panda {false};
 public:
-    Loseta(char tipo_e);        //constructor loseta normal, recibe tipo y color este utimo es random
+    Loseta(char tipo_e);                //constructor loseta normal, recibe tipo y color este utimo es random
     ~Loseta();
+
+    char get_tipo();
+    int get_color();
+    bool get_irrigado();
+    int get_cantidad_bambu();
+
+    void set_esta_jardinero(bool nuevo_valor);
+    void set_esta_panda(bool nuevo_valor);
+
     void crecer_bambu();
     void decrecer_bambu();
+    void irrigar();
+    void imprimir_loseta(int i, int j);
 };
 
 #endif //LOSETA_H
