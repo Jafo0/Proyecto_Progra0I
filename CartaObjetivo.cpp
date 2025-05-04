@@ -21,6 +21,9 @@ CartaObjetivo::CartaObjetivo(char _tipo){   //Constructor
         }
     }
 }
+/*
+Aquí va el constructor que recibe todos los atributos y los inicializa
+*/
 
 CartaObjetivo::~CartaObjetivo(){            //Destructor
     delete[] this->bambu_meta;

@@ -15,6 +15,9 @@ private:                                // Jugador solo puede poner loseta 'N'
     bool esta_panda {false};
 public:
     Loseta(char tipo_e);                //constructor loseta normal, recibe tipo y color este utimo es random
+    /*
+    Aquí va el constructor que recibe todos los atributos y los inicializa
+    */
     ~Loseta();
 
     char get_tipo();

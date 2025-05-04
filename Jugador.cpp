@@ -14,6 +14,10 @@ Jugador::Jugador(std::string _nombre): nombre(_nombre){
     this->cartas_jugador[3] =  new CartaObjetivo('P');  
 }
 
+    /*
+    Aquí va el constructor que recibe todos los atributos y los inicializa
+    */
+
 Jugador::~Jugador(){
     for(int i = 0; i < 4; ++i) {
         delete cartas_jugador[i];  // Elimino cada objeto
@@ -27,6 +31,10 @@ void Jugador::imprimir(){
     cout<<"\n"<<"--------------------------------------"<<"Jugador: "<<this->nombre<<"--------------------------------------"<<endl;
     cout<<"Puntaje Acumulado: "<<this->puntos<<endl;
 
+    /*
+    Mostrar puntaje acumulado
+    */
+
     std::string nombre_carta;
     cout<<"Cartas: "<<endl;
     for(int i = 0; i < 4; i++){
@@ -35,3 +43,11 @@ void Jugador::imprimir(){
         this->cartas_jugador[i]->imprimir(nombre_carta);
     }  
 }
+
+    /*
+    Función de recolectar bambu. Debe recibir el color del bambu recolectado y acomodarlo acorde al color.
+    */
+
+    /*
+    Función de evaluar cartas objetivos con los bambus recolectados
+    */

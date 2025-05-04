@@ -23,6 +23,9 @@ class Juego{
 
     public:
     Juego(std::string nombre_j1, std::string nombre_j2, int dimension);
+    /*
+    Aquí va el constructor que recibe todos los atributos y los inicializa
+    */
     ~Juego();
 
     void imprimir_tablero();

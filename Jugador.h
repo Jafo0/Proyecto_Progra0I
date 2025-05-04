@@ -14,9 +14,19 @@ private:                                //Es un puntero a un array de punteros a
 
 public:
     Jugador(std::string);
+    /*
+    Aquí va el constructor que recibe todos los atributos y los inicializa
+    */
     ~Jugador();
     std::string get_nombre();
     void imprimir();
+    /*
+    Función de recolectar bambu. Debe recibir el color del bambu recolectado y acomodarlo acorde al color.
+    */
+
+    /*
+    Función de evaluar cartas objetivos con los bambus recolectados
+    */
 };
 
 #endif //JUGADOR_H

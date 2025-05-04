@@ -18,8 +18,11 @@ Loseta::Loseta(char tipo_e): tipo_loseta(tipo_e){
         this->cantidad_bambu = 0;               // inicia en 0 debido a que el Jardinero no ha estado
         this->color = (std::rand() % 3) + 0;    // El color es algún número entre el 0 y el 2
     }
-}   
-
+}  
+    /*
+    Aquí va el constructor que recibe todos los atributos y los inicializa
+    */
+        
 Loseta::~Loseta(){}
 
 char Loseta::get_tipo(){return this->tipo_loseta;}
@@ -59,7 +62,7 @@ void Loseta:: imprimir_loseta(int i, int j){
     */
    //Paso 0: Identifico si está el jardinero
    if(this->esta_jardinero){
-        cout<<"\033[4m"; // Texto subrayado
+        cout<<"\033[4m"; // Texto subrayado 
    }
    if(this->esta_panda){
     cout<<"\033[9m"; // Texto tachado

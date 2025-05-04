@@ -32,6 +32,10 @@ Juego::Juego(std::string nombre_j1, std::string nombre_j2, int dimension): dimen
     this->menu = new Menu();
 } 
 
+/*
+Aquí va el constructor que recibe todos los atributos y los inicializa
+*/
+
 Juego::~Juego(){}
 
 void Juego::mostrar_estado_del_juego(){
@@ -135,7 +139,15 @@ void Juego::usar_panda(){
         
         this->tablero[this->panda[0]][this->panda[1]]->set_esta_panda(true);    // Le indico a la loseta que ahora tiene un jardinero
         this->tablero[this->panda[0]][this->panda[1]]->decrecer_bambu();
+        
     }
+    /*
+    Aquí se llama a la función de recolectar bambú
+    */
+
+    /*
+    Aquí se llama a la función de evaluar carta objetivo con bambu recolectado
+    */
 }
 
 void Juego::realizar_accion(){
