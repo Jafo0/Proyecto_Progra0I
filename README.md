@@ -26,11 +26,15 @@ Suposiciones realizadas/Consideraciones generales:
     -El código NO está hecho a prueba de errores en los que se solicita una entrada entera y el usuario ingresa una entrada de otro tipo.
     -Para el funcionamiento correcto del tablero, al ingresar la dimensión de este, debe ser un número impar.
     -El juego puede finalizar únicamente al inicio de cada ronda. Si ya la ronda empezó, los jugadores deberán terminar sus movimientos.
+    -El juego NO está hecho a prueba de errores en cuánto a recepción de datos. Si pide un entero y se ingresa un string, por ejemplo, el código entra en un bucle infinito.
+    -El juego SÍ está hecho a prueba de errores en cuanto a ingresar un valor no esperado PERO del mismo tipo de dato. Por ejemplo, el jugador no pierde su turno al intentar irrigar una loseta ya irrigada.
+    -Al imprimir el tablero, la codificación es la siguiente: Primeros dos números son identificador de posición. El asterisco indica si la loseta está irrigada. El subrayado indica la posición del jardinero. El tachado indica la posición del panda. La loseta estanque es la azul. Las posiciones blancas corresponden a espacios vacíos, NO CONTIENEN LOSETAS. El resto de colores, son para el color de loseta generada.
         
 
 
 Pendiente:
-    -Hacer cada switch case como una función aparte para luego únicamente llamar a la función y dejar más limpio el método "jugar".
-    -Intentar hacer el código a prueba de errores.
-    -Corregir el movimiento del panda/jardinero.
+    -Hacer las limitaciones de movimiento del panda/jardinero.
     -Crear un constructor para las clases: Carta objetivo, Jugador y loseta en la que se reciban todos sus atributos como parámetros (esto para luego poder cargar el archivo de texto)
+
+Preguntas:
+    -El código debe ser a prueba de errores en cuánto a la entrada de un dato de otro tipo?

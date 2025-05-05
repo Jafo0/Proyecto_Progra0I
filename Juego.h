@@ -32,11 +32,11 @@ class Juego{
     void mostrar_estado_del_juego();
     void definir_fin_del_juego();
 
-    void crecer_jardin();
-    void regar_loseta();
-    void usar_jardinero();
-    void usar_panda();
-    void realizar_accion();
+    bool crecer_jardin(int i, int j);
+    bool regar_loseta(int i, int j);
+    bool usar_jardinero(int i, int j);
+    bool usar_panda(int i, int j);
+    bool realizar_accion();
 
     void jugar();
     

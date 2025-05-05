@@ -64,11 +64,12 @@ void Loseta:: imprimir_loseta(int i, int j){
    if(this->esta_jardinero){
         cout<<"\033[4m"; // Texto subrayado 
    }
+   //Paso 1: Identifico si está el panda
    if(this->esta_panda){
     cout<<"\033[9m"; // Texto tachado
     }
 
-   // Paso 1: Defino el color
+   // Paso 2: Defino el color
    switch(this->color) {
     case 0:
     cout<<"\033[33m"; // Amarillo
@@ -86,7 +87,7 @@ void Loseta:: imprimir_loseta(int i, int j){
     cout<<"\033[97m"; // Blanco
     }
 
-   // Paso 2: Defino el contenido
+   // Paso 3: Defino el contenido
    std::string texto = std::to_string(i) + std::to_string(j);
    if(this->tipo_loseta == 'E'){    //Si es la loseta estanque
         texto = "  " + texto + "  ";
@@ -97,6 +98,6 @@ void Loseta:: imprimir_loseta(int i, int j){
    }else{   //Irrigada y con bambú
         texto = " " + texto + "*" + std::to_string(this->cantidad_bambu);
    }
-   // Paso 3: Imprimo, cierro el color y cierro el panda/jardinero
-   cout<<texto<<"\033[0m\033[0m"; 
+   // Paso 4: Imprimo, cierro el color y/o cierro el panda/jardinero
+   cout<<texto<<"\033[0m"; 
 }
