@@ -36,6 +36,8 @@ int CartaObjetivo::getPuntaje(){
     return this->puntaje;
 }
 
+int* CartaObjetivo::getBambuMeta(){ return this->bambu_meta;}
+
 void CartaObjetivo::imprimir(std::string nombre_carta){
     //Encabezado
     cout<<"\t"<<nombre_carta<<":\tTipo:"<<this->tipo<<"\t\tPuntaje:"<<this->puntaje<<"\t Meta:";

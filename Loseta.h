@@ -25,6 +25,7 @@ public:
 
     void set_esta_jardinero(bool nuevo_valor);
     void set_esta_panda(bool nuevo_valor);
+	bool get_esta_panda();
 
     void crecer_bambu();
     void decrecer_bambu();

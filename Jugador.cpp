@@ -14,9 +14,14 @@ Jugador::Jugador(std::string _nombre): nombre(_nombre){
     this->cartas_jugador[3] =  new CartaObjetivo('P');  
 }
 
-    /*
-    Aquí va el constructor que recibe todos los atributos y los inicializa
-    */
+   Jugador::Jugador(std::string _nombre, int _puntos, int _bambus_almacenados[], CartaObjetivo** _cartas_jugador){
+    this->nombre = _nombre;
+    this->puntos = _puntos;
+    for(int i = 0; i < 3; i++){
+        this->bambus_almacenados[i] = _bambus_almacenados[i];
+    }
+    this->cartas_jugador = _cartas_jugador;
+}
 
 Jugador::~Jugador(){
     for(int i = 0; i < 4; ++i) {
@@ -50,6 +55,46 @@ void Jugador::recolectar_bambu(int color){
         bambus_almacenados[color]++;  
     }
 }
-    /*
-    Función de evaluar cartas objetivos con los bambus recolectados
-    */
+
+void Jugador::evaluar_panda(Loseta*** tablero, int dimension_tablero)
+{
+    //Revisa solamente la loseta que tiene el panda
+    for (int i = 0; i < dimension_tablero; i++)
+    {
+        for (int j = 0; j < dimension_tablero; j++)
+        {
+            if (tablero[i][j]->get_esta_panda() == true)
+            {
+                int color = tablero[i][j]->get_color();
+                switch (color)
+                {
+                    case 0:
+                        this->bambus_almacenados[0]++;
+                        break;
+                    case 1:
+                        this->bambus_almacenados[1]++;
+                        break;
+                    case 2:
+                        this->bambus_almacenados[2]++;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+
+    for (int c = 0; c < 4; c++)
+    {
+        if (this->cartas_jugador[c]->getTipo() == 'P')
+        {
+            for (int b = 0; b < 3; b++)
+            {
+                if (this->cartas_jugador[c]->getBambuMeta()[b] <= this->bambus_almacenados[b])
+                {
+                    this->puntos += this->cartas_jugador[c]->getPuntaje();
+                }
+            }
+        }
+    }
+}

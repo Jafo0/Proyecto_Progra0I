@@ -13,6 +13,7 @@ public:
     CartaObjetivo(char tipo_e, int puntaje_e, int* bambu_meta_e);
     ~CartaObjetivo();    //Destructor de la carta
     char getTipo();
+	int* getBambuMeta();
     int getPuntaje();
     void imprimir(std::string); //Recibe el nombre de la carta
 };

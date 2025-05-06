@@ -1,4 +1,5 @@
 #include "CartaObjetivo.h"
+#include "Loseta.h"
 #include <string>
 
 #ifndef JUGADOR_H
@@ -14,16 +15,12 @@ private:                                //Es un puntero a un array de punteros a
 
 public:
     Jugador(std::string);
-    /*
-    Aquí va el constructor que recibe todos los atributos y los inicializa
-    */
+    Jugador(std::string, int, int[], CartaObjetivo**);
     ~Jugador();
     std::string get_nombre();
     void imprimir();
     void recolectar_bambu(int color);
-    /*
-    Función de evaluar cartas objetivos con los bambus recolectados
-    */
+    void evaluar_panda(Loseta***, int);
 };
 
 #endif //JUGADOR_H

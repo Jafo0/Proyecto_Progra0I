@@ -38,6 +38,7 @@ bool Loseta::get_irrigado(){return this->irrigado;}
 
 int Loseta::get_cantidad_bambu(){return this->cantidad_bambu;}
 
+bool Loseta::get_esta_panda(){return this->esta_panda;}
 
 void Loseta::set_esta_jardinero(bool nuevo_valor){this->esta_jardinero = nuevo_valor;}
 
