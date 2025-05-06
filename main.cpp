@@ -16,27 +16,25 @@ int main() {
     int cargar_partida {2};
     cin>>cargar_partida;
 
+    system("cls");
+
     if(cargar_partida == 1){
         //Código para cargar la partida desde un archivo de texto
     }else{
-        // std::string nombre_j1, nombre_j2;
+        std::string nombre_j1, nombre_j2;
 
-        // cout<<"Ingrese el nombre del jugador 1: ";
-        // cin>>nombre_j1;
+        cout<<"Ingrese el nombre del jugador 1: ";
+        cin>>nombre_j1;
 
-        // cout<<"Ingrese el nombre del jugador 2: ";
-        // cin>>nombre_j2;
+        cout<<"Ingrese el nombre del jugador 2: ";
+        cin>>nombre_j2;
 
-        // cout<<"Ingrese la dimension del tablero (Para pruebas iniciales, ingresar 9): ";
-        // int dimension;
-        // cin>>dimension;
-        // cout<<endl;
+        cout<<"Ingrese la dimension del tablero (Para pruebas iniciales, ingresar 9): ";
+        int dimension;
+        cin>>dimension;
+        cout<<endl;
 
-        // Juego* juego = new Juego(nombre_j1, nombre_j2, dimension);
-        // juego->jugar();
-
-        Juego* juego = new Juego("Ale", "Fio", 9);
+        Juego* juego = new Juego(nombre_j1, nombre_j2, dimension);
         juego->jugar();
-
     }
 }

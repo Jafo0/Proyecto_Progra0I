@@ -1,6 +1,7 @@
 #include "Juego.h"
 
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include <cstdlib>
 
@@ -38,25 +39,57 @@ Aquí va el constructor que recibe todos los atributos y los inicializa
 
 Juego::~Juego(){}
 
+void Juego::imprimir_tablero(){
+    // Información del tablero:
+    cout<<"\n"<<"----------------------------------------------"<<"Tablero"<<"----------------------------------------------------------------------------------------------------------"<<endl;
+    for(int i = 0; i < this->dimension_tablero; i++){       // Recorremos filas. Por cada fila, hacer lo siguiente: 
+        // Imprimimos la tapa superior: -----------------------------------------------------------------------
+        if(i%2 != 0){cout<<"        ";}
+        for(int j = 0; j < this->dimension_tablero; j++) {    
+            cout<<" ______ "<<"        ";
+        }
+        cout<<endl;
+
+        // Imprimimos el lado superior con la información de la loseta: ---------------------------------------
+        if(i%2 != 0){cout<<"        ";}
+        for(int j = 0; j < this->dimension_tablero; j++){               // Recorremos columnas
+            if (this->tablero[i][j] == nullptr) {                       // Loseta no definida
+                cout<<"/";
+                std::string texto = std::to_string(i)+std::to_string(j);
+                cout << std::left << std::setw(6) << std::setfill(' ') << texto;
+                cout<<"\\";
+                cout<<"        ";
+            }else{
+                cout<<"/";
+                this->tablero[i][j]->imprimir_loseta(i,j);
+                cout<<"\\";
+                cout<<"        ";
+            }
+        }
+        cout<<endl;
+
+        // Imprimimos el lado inferior: -----------------------------------------------------------------------
+        if(i%2 != 0){cout<<"        ";}
+        for(int j = 0; j < this->dimension_tablero; j++) {    // Lado inferior
+            cout<<"\\______/"<<"        ";
+        }
+        cout<<endl;
+
+        // // Imprimimos la tapa inferior: -----------------------------------------------------------------------
+        // if(i%2 != 0){cout<<"        ";}
+        // for(int j = 0; j < this->dimension_tablero; j++) {    //Tapa inferior
+        //     cout<<" ------ "<<"        ";
+        // }
+        // cout<<endl;
+    }
+}
+
 void Juego::mostrar_estado_del_juego(){
     // Información de los jugadores: 
     this->j1->imprimir();
     this->j2->imprimir();
     cout<<endl;
-    
-    // Información del tablero:
-    cout<<"\n"<<"----------------------------------------------"<<"Tablero"<<"----------------------------------------------"<<endl;
-    for(int i = 0; i < this->dimension_tablero; i++){                   // Recorremos filas
-        if(i%2 != 0){cout<<"   ";}
-        for(int j = 0; j < this->dimension_tablero; j++){               // Recorremos columnas
-            if (this->tablero[i][j] == nullptr) {            // Loseta no definida
-                cout<<"  "<<std::to_string(i)<<std::to_string(j)<<"  ";
-            }else{
-                this->tablero[i][j]->imprimir_loseta(i,j);
-            }
-        }
-        cout<<endl;
-    }
+    imprimir_tablero();
 }
 
 void Juego::definir_fin_del_juego(){
@@ -127,9 +160,9 @@ bool Juego::usar_panda(int i, int j){
         this->panda[1] = j;
         
         this->tablero[this->panda[0]][this->panda[1]]->set_esta_panda(true);    // Le indico a la loseta que ahora tiene un panda
-        this->tablero[this->panda[0]][this->panda[1]]->decrecer_bambu();
-        int color = this->tablero[i][j]->get_color();
-        jugador_actual->recolectar_bambu(color);
+        this->tablero[this->panda[0]][this->panda[1]]->decrecer_bambu();        // Reduzco un bambu de la loseta    
+        int color = this->tablero[i][j]->get_color();                           // Veo el color de la loseta
+        jugador_actual->recolectar_bambu(color);                                //El bambu comido se le agrega al jugador respectivo
         return true;
     }
     
@@ -175,14 +208,12 @@ void Juego::jugar(){
         mostrar_estado_del_juego();
         definir_fin_del_juego();
         if(!this->fin_del_juego){
-            // mostrar_estado_del_juego();
             jugador_actual=this->j1;
             for(int i = 1; i < 3; i++){
                 system("cls");    // Limpio la terminal
                 mostrar_estado_del_juego();
                 cout<<"\nRonda: "<<ronda<<"\t|\tTurno de: "<<this->j1->get_nombre()<<"\t|\tAccion #: "<<i<<endl;
                 while(!realizar_accion());
-                // mostrar_estado_del_juego();
             }
             jugador_actual=this->j2;
             for(int j = 1; j < 3; j++){
@@ -190,7 +221,6 @@ void Juego::jugar(){
                 mostrar_estado_del_juego();
                 cout<<"\nRonda: "<<ronda<<"\t|\tTurno de: "<<this->j2->get_nombre()<<"\t|\tAccion #: "<<j<<endl;
                 while(!realizar_accion());
-                // mostrar_estado_del_juego();
             }
             ronda++;
         }

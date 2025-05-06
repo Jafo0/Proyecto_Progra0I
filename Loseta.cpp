@@ -1,5 +1,6 @@
 #include "Loseta.h"
 #include <iostream>
+#include <iomanip>
 #include <string>
 
 using std::cout;
@@ -20,16 +21,12 @@ Loseta::Loseta(char tipo_e): tipo_loseta(tipo_e){
     }
 }
 Loseta::Loseta(char tipo_e, int color_e, bool irrigado_e, int cantidad_bambu_e, bool esta_jardinero_e, bool esta_panda_e)
-    :tipo_loseta(tipo_e), color(color_e), irrigado(irrigado_e), cantidad_bambu(cantidad_bambu_e), esta_jardinero(esta_jardinero_e), esta_panda(esta_panda_e){
-    /**if (tipo_e== 'E') {                 
-        this->irrigado = true;           
-        this->color= 3;
-    } else {
-        this->irrigado = false;
-        this->cantidad_bambu = 0;
-        this->color = (std::rand() % 3) + 0;
-    }*/
-}  
+    :   tipo_loseta(tipo_e), 
+        color(color_e), 
+        irrigado(irrigado_e), 
+        cantidad_bambu(cantidad_bambu_e), 
+        esta_jardinero(esta_jardinero_e), 
+        esta_panda(esta_panda_e){}  
         
 Loseta::~Loseta(){}
 
@@ -95,17 +92,20 @@ void Loseta:: imprimir_loseta(int i, int j){
     cout<<"\033[97m"; // Blanco
     }
 
-   // Paso 3: Defino el contenido
-   std::string texto = std::to_string(i) + std::to_string(j);
-   if(this->tipo_loseta == 'E'){    //Si es la loseta estanque
-        texto = "  " + texto + "  ";
-   }else if(!this->irrigado){       //Si no está irrigada
-        texto = "  " + texto + "  ";
-   }else if(this->cantidad_bambu == 0){ //Irrigada pero sin bambú
-        texto = "  " + texto + "* ";
-   }else{   //Irrigada y con bambú
-        texto = " " + texto + "*" + std::to_string(this->cantidad_bambu);
-   }
-   // Paso 4: Imprimo, cierro el color y/o cierro el panda/jardinero
-   cout<<texto<<"\033[0m"; 
+    // Paso 3: Defino el contenido
+    std::string texto = std::to_string(i) + std::to_string(j);
+    if(tipo_loseta == 'E'){  // Si no es la estanque
+            // Hacer nada
+    }else{
+        if(this->irrigado){   // Si está irrigada
+            texto += "*";
+            if(this->cantidad_bambu>0){ // Si tiene bambús
+                texto += std::to_string(this->cantidad_bambu);
+            }
+        }
+    }
+
+    // Paso 4: Imprimo el contenido, cierro el formato
+    cout << std::left << std::setw(6) << std::setfill(' ') << texto;
+    cout<<"\033[0m\033[0m"; 
 }
