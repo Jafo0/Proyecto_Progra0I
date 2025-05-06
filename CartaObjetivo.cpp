@@ -21,10 +21,9 @@ CartaObjetivo::CartaObjetivo(char _tipo){   //Constructor
         }
     }
 }
-/*
-Aquí va el constructor que recibe todos los atributos y los inicializa
-*/
-
+CartaObjetivo::CartaObjetivo(char tipo_e, int puntaje_e, int* bambu_meta_e)
+    :tipo(tipo_e), puntaje(puntaje_e), bambu_meta(bambu_meta_e){}
+    
 CartaObjetivo::~CartaObjetivo(){            //Destructor
     delete[] this->bambu_meta;
 };

@@ -128,12 +128,11 @@ bool Juego::usar_panda(int i, int j){
         
         this->tablero[this->panda[0]][this->panda[1]]->set_esta_panda(true);    // Le indico a la loseta que ahora tiene un panda
         this->tablero[this->panda[0]][this->panda[1]]->decrecer_bambu();
+        int color = this->tablero[i][j]->get_color();
+        jugador_actual->recolectar_bambu(color);
         return true;
     }
-    /*
-    Aquí se llama a la función de recolectar bambú
-    */
-
+    
     /*
     Aquí se llama a la función de evaluar carta objetivo con bambu recolectado
     */
@@ -177,6 +176,7 @@ void Juego::jugar(){
         definir_fin_del_juego();
         if(!this->fin_del_juego){
             // mostrar_estado_del_juego();
+            jugador_actual=this->j1;
             for(int i = 1; i < 3; i++){
                 system("cls");    // Limpio la terminal
                 mostrar_estado_del_juego();
@@ -184,6 +184,7 @@ void Juego::jugar(){
                 while(!realizar_accion());
                 // mostrar_estado_del_juego();
             }
+            jugador_actual=this->j2;
             for(int j = 1; j < 3; j++){
                 system("cls");    // Limpio la terminal
                 mostrar_estado_del_juego();

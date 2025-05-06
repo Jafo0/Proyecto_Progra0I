@@ -30,10 +30,12 @@ std::string Jugador::get_nombre(){return this->nombre;}
 void Jugador::imprimir(){
     cout<<"\n"<<"--------------------------------------"<<"Jugador: "<<this->nombre<<"--------------------------------------"<<endl;
     cout<<"Puntaje Acumulado: "<<this->puntos<<endl;
-
-    /*
-    Mostrar puntaje acumulado
-    */
+    cout<<"Bambus almacenados [";
+    for (int i=0; i<3;i++){
+       cout<<bambus_almacenados[i];
+       if (i < 2) cout << ", ";
+    }
+    cout<<"]"<<endl;
 
     std::string nombre_carta;
     cout<<"Cartas: "<<endl;
@@ -43,11 +45,11 @@ void Jugador::imprimir(){
         this->cartas_jugador[i]->imprimir(nombre_carta);
     }  
 }
-
-    /*
-    Función de recolectar bambu. Debe recibir el color del bambu recolectado y acomodarlo acorde al color.
-    */
-
+void Jugador::recolectar_bambu(int color){
+    if (color >= 0 && color < 3){
+        bambus_almacenados[color]++;  
+    }
+}
     /*
     Función de evaluar cartas objetivos con los bambus recolectados
     */

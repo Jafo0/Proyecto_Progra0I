@@ -19,6 +19,7 @@ class Juego{
     int dimension_tablero;
     Jugador* j1;
     Jugador* j2;
+    Jugador* jugador_actual;
     bool fin_del_juego {false};
 
     public:
