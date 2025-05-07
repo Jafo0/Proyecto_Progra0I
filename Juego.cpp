@@ -33,6 +33,13 @@ Juego::Juego(std::string nombre_j1, std::string nombre_j2, int dimension): dimen
     this->menu = new Menu();
 } 
 
+Juego::Juego(Jugador* ja, Jugador* jb, int dimension, int panda_x, int panda_y, int jardinero_x, int jardinero_y,
+Menu* m, Jugador* j_actual, Loseta*** t): j1(ja), j2(jb), dimension_tablero(dimension), menu(m), jugador_actual(j_actual), tablero(t){
+	this->panda[0] = panda_x;
+	this->panda[1] = panda_y;
+	this->jardinero[0] = jardinero_x;
+	this->jardinero[1] = jardinero_y;
+}
 /*
 Aquí va el constructor que recibe todos los atributos y los inicializa
 */

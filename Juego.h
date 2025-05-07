@@ -24,6 +24,8 @@ class Juego{
 
     public:
     Juego(std::string nombre_j1, std::string nombre_j2, int dimension);
+	Juego(Jugador* ja, Jugador* jb, int dimension, int panda_x, int panda_y, int jardinero_x, int jardinero_y,
+Menu* m, Jugador* j_actual, Loseta*** t);
     /*
     Aquí va el constructor que recibe todos los atributos y los inicializa
     */
