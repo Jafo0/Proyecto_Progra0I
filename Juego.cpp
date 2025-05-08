@@ -125,6 +125,9 @@ bool Juego::crecer_jardin(int i, int j){
     } else if(this->tablero[i][j] != nullptr){  // Ya hay una loseta en ese espacio
         cout<<"\n\033[1;31m"<<"La casilla ingresada ya contiene una loseta. Vuelva a intentar."<<"\033[0m"<<endl;
         return false;
+    } else if(!comprobar_adyacencia(i,j)){
+        cout<<"\n\033[1;31m"<<"La casilla ingresada no es adyacente a una loseta. Vuelva a intentar."<<"\033[0m"<<endl;
+        return false;
     } else{
         this->tablero[i][j] = new Loseta('N');
         return true;
@@ -213,6 +216,37 @@ bool Juego::realizar_accion(){
             return usar_panda(i, j);
         // No ocupamos caso default porque la función de desplegar ya se asegura obtener un valor entre el 1 y el 5
     }
+    return false;
+}
+bool Juego::comprobar_adyacencia(int i, int j){            //metodo para saber si puedo agregar loseta
+    if(this->tablero[i][j] != nullptr){ return false;}     
+    
+    int adyacentes_i[6], adyacentes_j[6];                  //me define cuales son adyacentes para cada posicion
+
+    if((i%2 == 0 && j%2 == 0) || (i%2 != 0 && j%2 == 0)){ //(P,P)=(I,P) con p par e i impar
+        int aux_i[6]={-1, -1, -1, 0, 1, 0};
+        int aux_j[6]= {-1, 0, 1, -1, 0, 1};
+        for(int m = 0; m < 6; m++){
+            adyacentes_i[m]=aux_i[m];
+            adyacentes_j[m]=aux_j[m];
+        }
+    }else{                                                //(I.I)=(P,I)
+        int aux_i[6]={0, -1, 0, 1, 1, 1};
+        int aux_j[6]= {-1, 0, 1, -1, 0, 1};
+        for(int m = 0; m < 6; m++){
+            adyacentes_i[m]=aux_i[m];
+            adyacentes_j[m]=aux_j[m];
+        }
+    }
+    for(int m=0; m<6;m++){                               //comprobar vecinos de esta loseta
+        int nuevo_i = i + adyacentes_i[m];
+        int nuevo_j = j + adyacentes_j[m];
+        if(nuevo_i>=0 && nuevo_i<= this->dimension_tablero && nuevo_j>=0 && nuevo_j<= this->dimension_tablero){
+            if(this->tablero[nuevo_i][nuevo_j] != nullptr){return true;}
+            //encontro adyacencia para alguno de los valores y por lo tanto se puede añadir loseta
+        }
+    }
+    return false;
 }
 
 void Juego::jugar(){

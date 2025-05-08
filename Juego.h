@@ -29,9 +29,6 @@ class Juego{
     Juego(std::string, std::string, int, int);
 	Juego(Jugador*, Jugador*, int, int, int, int, int, Menu*, Jugador*, Loseta***);
 
-    /*
-    Aquí va el constructor que recibe todos los atributos y los inicializa
-    */
     ~Juego();
     void alternar_jugador();
     void imprimir_tablero();
@@ -43,7 +40,7 @@ class Juego{
     bool usar_jardinero(int, int);
     bool usar_panda(int, int);
     bool realizar_accion();
-
+    bool comprobar_adyacencia(int i, int j); //comprobar adyacencia de la loseta
     void jugar();
     
 };
