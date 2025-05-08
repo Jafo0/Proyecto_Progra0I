@@ -40,7 +40,7 @@ void Jugador::imprimir(){
        cout<<bambus_almacenados[i];
        if (i < 2) cout << ", ";
     }
-    cout<<"]"<<endl;
+    cout<<"]\t\t\t\t\t\tEstructura: [#bambu color 1, #bambu color 2, #bambu color 3]"<<endl;
 
     std::string nombre_carta;
     cout<<"Cartas: "<<endl;

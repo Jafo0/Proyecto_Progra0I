@@ -19,7 +19,7 @@ public:
     ~Jugador();
     std::string get_nombre();
     void imprimir();
-    void recolectar_bambu(int color);
+    void recolectar_bambu(int);
     void evaluar_panda(Loseta***, int);
 };
 

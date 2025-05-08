@@ -12,33 +12,36 @@
 
 class Juego{
     private:
-    Loseta*** tablero;
-    Menu* menu;
     int panda[2] {-1,-1};
     int jardinero[2] {-1,-1};
-    int dimension_tablero;
+    int dimension_tablero {9};
+    int espacio_texto {6};  //Necesario para imprimir el tablero
+    int puntos_juego {5};
+    bool fin_del_juego {false};
+    Loseta*** tablero;
+    Menu* menu;
     Jugador* j1;
     Jugador* j2;
     Jugador* jugador_actual;
-    bool fin_del_juego {false};
+    
 
     public:
-    Juego(std::string nombre_j1, std::string nombre_j2, int dimension);
-	Juego(Jugador* ja, Jugador* jb, int dimension, int panda_x, int panda_y, int jardinero_x, int jardinero_y,
-Menu* m, Jugador* j_actual, Loseta*** t);
+    Juego(std::string, std::string, int, int);
+	Juego(Jugador*, Jugador*, int, int, int, int, int, Menu*, Jugador*, Loseta***);
+
     /*
     Aquí va el constructor que recibe todos los atributos y los inicializa
     */
     ~Juego();
-
+    void alternar_jugador();
     void imprimir_tablero();
     void mostrar_estado_del_juego();
     void definir_fin_del_juego();
 
-    bool crecer_jardin(int i, int j);
-    bool regar_loseta(int i, int j);
-    bool usar_jardinero(int i, int j);
-    bool usar_panda(int i, int j);
+    bool crecer_jardin(int, int);
+    bool regar_loseta(int, int);
+    bool usar_jardinero(int, int);
+    bool usar_panda(int, int);
     bool realizar_accion();
 
     void jugar();

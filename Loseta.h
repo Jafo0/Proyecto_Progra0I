@@ -14,8 +14,8 @@ private:                                // Jugador solo puede poner loseta 'N'
     bool esta_jardinero {false};
     bool esta_panda {false};
 public:
-    Loseta(char tipo_e);                //constructor loseta normal, recibe tipo y color este utimo es random
-    Loseta(char tipo_e, int color_e, bool irrigado_e, int cantidad_bambu_e, bool esta_jardinero_e, bool esta_panda_e);
+    Loseta(char);                //constructor loseta normal, recibe tipo y color este utimo es random
+    Loseta(char, int, bool, int, bool, bool);
     ~Loseta();
 
     char get_tipo();
@@ -23,14 +23,14 @@ public:
     bool get_irrigado();
     int get_cantidad_bambu();
 
-    void set_esta_jardinero(bool nuevo_valor);
-    void set_esta_panda(bool nuevo_valor);
+    void set_esta_jardinero(bool);
+    void set_esta_panda(bool);
 	bool get_esta_panda();
 
     void crecer_bambu();
     void decrecer_bambu();
     void irrigar();
-    void imprimir_loseta(int i, int j);
+    void imprimir_loseta(int, int, bool, bool, int);
 };
 
 #endif //LOSETA_H

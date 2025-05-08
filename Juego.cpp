@@ -9,9 +9,12 @@ using std::cout;
 using std::cin;
 using std::endl;
 
-Juego::Juego(std::string nombre_j1, std::string nombre_j2, int dimension): dimension_tablero(dimension){
+Juego::Juego(std::string nombre_j1, std::string nombre_j2, int dimension, int puntos): dimension_tablero(dimension), puntos_juego(puntos){
     this->j1 = new Jugador(nombre_j1);
     this->j2 = new Jugador(nombre_j2);
+    this->jugador_actual = this->j1;
+
+    if(this->dimension_tablero>9){this->espacio_texto = 8;}    //Necesario a la hora de imprimir el tablero
 
     //Creo mi tablero
     this->tablero = new Loseta**[dimension];
@@ -46,49 +49,57 @@ Aquí va el constructor que recibe todos los atributos y los inicializa
 
 Juego::~Juego(){}
 
+void Juego::alternar_jugador(){
+    this->jugador_actual = (this->jugador_actual == this->j1)? this->j2 : this->j1;
+}
+
 void Juego::imprimir_tablero(){
     // Información del tablero:
-    cout<<"\n"<<"----------------------------------------------"<<"Tablero"<<"----------------------------------------------------------------------------------------------------------"<<endl;
-    for(int i = 0; i < this->dimension_tablero; i++){       // Recorremos filas. Por cada fila, hacer lo siguiente: 
-        // Imprimimos la tapa superior: -----------------------------------------------------------------------
-        if(i%2 != 0){cout<<"        ";}
-        for(int j = 0; j < this->dimension_tablero; j++) {    
-            cout<<" ______ "<<"        ";
-        }
-        cout<<endl;
+    cout<<"----------------------------------------------"<<"Tablero"<<"----------------------------------------------"<<endl;
+    
+    // Imprimimos la tapa superior: -----------------------------------------------------------------------
+    for(int i = 0; i < this->dimension_tablero; i++) {    
+        cout<<" "<<std::string(this->espacio_texto, '_')<<std::string(this->espacio_texto, ' ')<<" ";
+    }
+    cout<<endl;
 
+    for(int i = 0; i < this->dimension_tablero; i++){       // Recorremos filas. Por cada fila, hacer lo siguiente: 
         // Imprimimos el lado superior con la información de la loseta: ---------------------------------------
-        if(i%2 != 0){cout<<"        ";}
         for(int j = 0; j < this->dimension_tablero; j++){               // Recorremos columnas
+            if(i%2 != 0){       // Si la fila es impar
+                if(j == 0){     
+                    cout<<"\\";     // Agregamos un '\' solo para el elemento de la primera columna
+                }
+                cout<<std::string(this->espacio_texto, '_');}    
+
             if (this->tablero[i][j] == nullptr) {                       // Loseta no definida
                 cout<<"/";
                 std::string texto = std::to_string(i)+std::to_string(j);
-                cout << std::left << std::setw(6) << std::setfill(' ') << texto;
+                cout << std::left << std::setw(this->espacio_texto) << std::setfill(' ') << texto;
                 cout<<"\\";
-                cout<<"        ";
             }else{
+                bool jardinero = false;
+                bool panda = false;
                 cout<<"/";
-                this->tablero[i][j]->imprimir_loseta(i,j);
+                if(i == this->jardinero[0] && j == this->jardinero[1]){jardinero = true;}
+                if(i == this->panda[0] && j == this->panda[1]){panda = true;}
+                this->tablero[i][j]->imprimir_loseta(i,j, jardinero, panda, this->espacio_texto);
                 cout<<"\\";
-                cout<<"        ";
+            }
+            if(i%2 == 0){   // Si la fila es par
+                cout<<std::string(this->espacio_texto, '_');
+                if((j == this->dimension_tablero-1) && (i != 0)){   
+                cout<<"/";  // Agregamos un '\' solo para el elemento de la última columna
+                }   
             }
         }
-        cout<<endl;
-
-        // Imprimimos el lado inferior: -----------------------------------------------------------------------
-        if(i%2 != 0){cout<<"        ";}
-        for(int j = 0; j < this->dimension_tablero; j++) {    // Lado inferior
-            cout<<"\\______/"<<"        ";
-        }
-        cout<<endl;
-
-        // // Imprimimos la tapa inferior: -----------------------------------------------------------------------
-        // if(i%2 != 0){cout<<"        ";}
-        // for(int j = 0; j < this->dimension_tablero; j++) {    //Tapa inferior
-        //     cout<<" ------ "<<"        ";
-        // }
-        // cout<<endl;
+        cout<<endl; 
     }
+    // Imprimimos la tapa inferior: -----------------------------------------------------------------------
+    for(int i = 0; i < this->dimension_tablero; i++) {    
+        cout<<"\\"<<std::string(this->espacio_texto, '_')<<"/"<<std::string(this->espacio_texto, ' ');
+    }
+    cout<<endl;
 }
 
 void Juego::mostrar_estado_del_juego(){
@@ -147,7 +158,6 @@ bool Juego::usar_jardinero(int i, int j){
         this->jardinero[0] = i;     // Defino la nueva posición del jardinero
         this->jardinero[1] = j;
         
-        this->tablero[this->jardinero[0]][this->jardinero[1]]->set_esta_jardinero(true);    // Le indico a la loseta que ahora tiene un jardinero
         this->tablero[this->jardinero[0]][this->jardinero[1]]->crecer_bambu();
         return true;
     }
@@ -166,7 +176,6 @@ bool Juego::usar_panda(int i, int j){
         this->panda[0] = i;     // Defino la nueva posición del panda
         this->panda[1] = j;
         
-        this->tablero[this->panda[0]][this->panda[1]]->set_esta_panda(true);    // Le indico a la loseta que ahora tiene un panda
         this->tablero[this->panda[0]][this->panda[1]]->decrecer_bambu();        // Reduzco un bambu de la loseta    
         int color = this->tablero[i][j]->get_color();                           // Veo el color de la loseta
         jugador_actual->recolectar_bambu(color);                                //El bambu comido se le agrega al jugador respectivo
@@ -193,7 +202,6 @@ bool Juego::realizar_accion(){
         cout<<"\n\033[1;31m"<<"La casilla se sale de las dimensiones del tablero. Vuelva a intentar."<<"\033[0m"<<endl;
         return false;
     }  
-        
     switch(eleccion) 
         case 1: {// Crecer Jardin. 
             return crecer_jardin(i, j);
@@ -214,20 +222,16 @@ void Juego::jugar(){
         system("cls");    // Limpio la terminal
         mostrar_estado_del_juego();
         definir_fin_del_juego();
+
         if(!this->fin_del_juego){
-            jugador_actual=this->j1;
-            for(int i = 1; i < 3; i++){
-                system("cls");    // Limpio la terminal
-                mostrar_estado_del_juego();
-                cout<<"\nRonda: "<<ronda<<"\t|\tTurno de: "<<this->j1->get_nombre()<<"\t|\tAccion #: "<<i<<endl;
-                while(!realizar_accion());
-            }
-            jugador_actual=this->j2;
-            for(int j = 1; j < 3; j++){
-                system("cls");    // Limpio la terminal
-                mostrar_estado_del_juego();
-                cout<<"\nRonda: "<<ronda<<"\t|\tTurno de: "<<this->j2->get_nombre()<<"\t|\tAccion #: "<<j<<endl;
-                while(!realizar_accion());
+            for(int i = 0; i < 2; i++){ // Dos jugadores
+                for(int j = 1; j < 3; j++){ // Dos acciones por jugador
+                    system("cls");    // Limpio la terminal
+                    mostrar_estado_del_juego();
+                    cout<<"\nPuntos por alcanzar: "<<this->puntos_juego<<"\t\t|\t"<<"Ronda: "<<ronda<<"\t|\tTurno de: "<<this->jugador_actual->get_nombre()<<"\t|\tAccion #: "<<j<<endl;
+                    while(!realizar_accion());
+                }
+                alternar_jugador();
             }
             ronda++;
         }

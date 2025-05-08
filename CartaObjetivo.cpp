@@ -44,7 +44,7 @@ void CartaObjetivo::imprimir(std::string nombre_carta){
 
     //Bambús meta
     if(this -> tipo == 'J'){
-        cout<<"["<<this->bambu_meta[0]<<", "<<this->bambu_meta[1]<<"]\t\tEstructura: [#bambu, color de bambu]"<<endl;
+        cout<<"["<<this->bambu_meta[0]<<", "<<this->bambu_meta[1]+1<<"]\t\tEstructura: [#bambu, color de bambu]"<<endl;
     }else{
         cout<<"["<<this->bambu_meta[0]<<", "<<this->bambu_meta[1]<<", "<<this->bambu_meta[2]<<"]\t\tEstructura: [#bambu color 1, #bambu color 2, #bambu color 3]"<<endl;
     }

@@ -34,7 +34,12 @@ int main() {
         cin>>dimension;
         cout<<endl;
 
-        Juego* juego = new Juego(nombre_j1, nombre_j2, dimension);
+        cout<<"Ingrese los puntos a alcanzar(Para pruebas iniciales, ingresar 6): ";
+        int puntos;
+        cin>>puntos;
+        cout<<endl;
+
+        Juego* juego = new Juego("a", "b", dimension, puntos);
         juego->jugar();
     }
 }

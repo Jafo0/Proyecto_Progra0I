@@ -46,55 +46,45 @@ void Loseta::set_esta_panda(bool nuevo_valor){this->esta_panda = nuevo_valor;}
 
 //crecer y decrecer bambu
 void Loseta::crecer_bambu() {
-    if (this->tipo_loseta != 'E' && this->irrigado && this->cantidad_bambu < 4 && this->esta_jardinero){
+    if (this->tipo_loseta != 'E' && this->irrigado && this->cantidad_bambu < 4){
         this->cantidad_bambu++;
     }
 }
 
 void Loseta::decrecer_bambu(){
-    if (this->cantidad_bambu>0 && this->esta_panda){
+    if (this->cantidad_bambu>0){
         this->cantidad_bambu--;
     }
 }
 
 void Loseta::irrigar(){this->irrigado = true;}
 
-void Loseta:: imprimir_loseta(int i, int j){
-    /*
-    Opciones:
-        __ij__
-        __ij*_
-        _ij*4_
-    */
-   //Paso 0: Identifico si está el jardinero
-   if(this->esta_jardinero){
-        cout<<"\033[4m"; // Texto subrayado 
-   }
-   //Paso 1: Identifico si está el panda
-   if(this->esta_panda){
-    cout<<"\033[9m"; // Texto tachado
+void Loseta:: imprimir_loseta(int i, int j, bool jardinero, bool panda, int espacio_texto){
+    std::string texto = "";
+    // Paso 0: Compruebo panda y/o jardinero
+    if(jardinero){texto += "J";}
+    if(panda){texto += "P";}
+
+    // Paso 1: Defino el color
+    switch(this->color) {
+        case 0:
+        cout<<"\033[33m"; // Amarillo
+            break;
+        case 1:
+        cout<<"\033[35m"; // Rosado
+            break;
+        case 2:
+        cout<<"\033[32m"; // Verde
+            break;
+        case 3:
+        cout<<"\033[34m"; // Azul
+            break;
+        default:
+        cout<<"\033[97m"; // Blanco
     }
 
-   // Paso 2: Defino el color
-   switch(this->color) {
-    case 0:
-    cout<<"\033[33m"; // Amarillo
-        break;
-    case 1:
-    cout<<"\033[35m"; // Rosado
-        break;
-    case 2:
-    cout<<"\033[32m"; // Verde
-        break;
-    case 3:
-    cout<<"\033[34m"; // Azul
-        break;
-    default:
-    cout<<"\033[97m"; // Blanco
-    }
-
-    // Paso 3: Defino el contenido
-    std::string texto = std::to_string(i) + std::to_string(j);
+    // Paso 2: Defino el contenido
+    texto += std::to_string(i) + std::to_string(j);
     if(tipo_loseta == 'E'){  // Si no es la estanque
             // Hacer nada
     }else{
@@ -106,7 +96,7 @@ void Loseta:: imprimir_loseta(int i, int j){
         }
     }
 
-    // Paso 4: Imprimo el contenido, cierro el formato
-    cout << std::left << std::setw(6) << std::setfill(' ') << texto;
+    // Paso 3: Imprimo el contenido, cierro el formato
+    cout << std::left << std::setw(espacio_texto) << std::setfill(' ') << texto;
     cout<<"\033[0m\033[0m"; 
 }

@@ -10,7 +10,7 @@ private:
 
 public:
     CartaObjetivo(char); //Constructor de la carta. Recibe el tipo panda/jardinero
-    CartaObjetivo(char tipo_e, int puntaje_e, int* bambu_meta_e);
+    CartaObjetivo(char, int, int*);
     ~CartaObjetivo();    //Destructor de la carta
     char getTipo();
 	int* getBambuMeta();
