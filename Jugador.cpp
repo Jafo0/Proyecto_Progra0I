@@ -60,34 +60,9 @@ void Jugador::recolectar_bambu(int color){
 int Jugador::get_bambu_por_color(int color){
     return bambus_almacenados[color];
 }
-void Jugador::evaluar_panda(Loseta*** tablero, int dimension_tablero)
-{
-    //Revisa solamente la loseta que tiene el panda
-    for (int i = 0; i < dimension_tablero; i++)
-    {
-        for (int j = 0; j < dimension_tablero; j++)
-        {
-            if (tablero[i][j]->get_esta_panda() == true)
-            {
-                int color = tablero[i][j]->get_color();
-                switch (color)
-                {
-                    case 0:
-                        this->bambus_almacenados[0]++;
-                        break;
-                    case 1:
-                        this->bambus_almacenados[1]++;
-                        break;
-                    case 2:
-                        this->bambus_almacenados[2]++;
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-    }
 
+void Jugador::evaluar_panda()
+{
     for (int c = 0; c < 4; c++)
     {
         if (this->cartas_jugador[c]->getTipo() == 'P')
@@ -97,6 +72,24 @@ void Jugador::evaluar_panda(Loseta*** tablero, int dimension_tablero)
                 if (this->cartas_jugador[c]->getBambuMeta()[b] <= this->bambus_almacenados[b])
                 {
                     this->puntos += this->cartas_jugador[c]->getPuntaje();
+                    CartaObjetivo* borrar = this->cartas_jugador[c];
+                    this->cartas_jugador[c] = new CartaObjetivo('P');
+                    this->cartas_jugador[c]-> ~CartaObjetivo();
+                }
+            }
+        }
+    }
+}
+
+void Jugador::evaluar_jardinero(Loseta* jardinero){
+    for (int c = 0; c < 4; c++){
+        if (this->cartas_jugador[c]->getTipo() == 'J'){
+            if(jardinero->get_color() == this->cartas_jugador[c]->getBambuMeta()[1]){
+                if(jardinero->get_cantidad_bambu() <= this->cartas_jugador[c]->getBambuMeta()[0]){
+                    this->puntos += this->cartas_jugador[c]->getPuntaje();
+                    CartaObjetivo* borrar = this->cartas_jugador[c];
+                    this->cartas_jugador[c] = new CartaObjetivo('J');
+                    this->cartas_jugador[c]-> ~CartaObjetivo();
                 }
             }
         }

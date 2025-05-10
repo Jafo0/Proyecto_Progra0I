@@ -20,7 +20,8 @@ public:
     std::string get_nombre();
     void imprimir();
     void recolectar_bambu(int);
-    void evaluar_panda(Loseta***, int);
+    void evaluar_panda();
+    void evaluar_jardinero(Loseta*);
     int get_bambu_por_color(int);
 };
 
