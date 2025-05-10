@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include "Jugador.h" 
 using std::cout; 
 using std::endl;
@@ -30,17 +31,42 @@ Jugador::~Jugador(){
     delete[] cartas_jugador;       // Elimino el array de punteros
 }
 
+void Jugador::escribir_jugador(std::ofstream& archivo){
+    archivo<<"Jugador,"<<this->nombre<<","<<
+                         this->puntos<<","<<
+                         this->bambus_almacenados[0]<<","<<
+                         this->bambus_almacenados[1]<<","<<
+                         this->bambus_almacenados[2]<<endl;
+    for(int i=0; i<4; i++){
+        this->cartas_jugador[i]->escribir_carta_objetivo(archivo);
+    }
+}
+
 std::string Jugador::get_nombre(){return this->nombre;}
+int Jugador::get_puntos(){return this->puntos;}
+int* Jugador::get_bambus_almacenados(){return this->bambus_almacenados;}
 
 void Jugador::imprimir(){
     cout<<"\n"<<"--------------------------------------"<<"Jugador: "<<this->nombre<<"--------------------------------------"<<endl;
     cout<<"Puntaje Acumulado: "<<this->puntos<<endl;
     cout<<"Bambus almacenados [";
     for (int i=0; i<3;i++){
-       cout<<bambus_almacenados[i];
-       if (i < 2) cout << ", ";
+        // Paso 1: Defino el color
+        switch(i) {
+            case 0:
+                cout<<"\033[33m"; // Amarillo
+                break;
+            case 1:
+                cout<<"\033[35m"; // Rosado
+                break;
+            case 2:
+                cout<<"\033[32m"; // Verde
+                break;
+        }
+       cout<<bambus_almacenados[i]<<"\033[0m";  // Cierro el formato del color 
+       if (i < 2) {cout << ", ";}
     }
-    cout<<"]\t\t\t\t\t\tEstructura: [#bambu color 1, #bambu color 2, #bambu color 3]"<<endl;
+    cout<<"]\t\t\t\t\t\tEstructura: [\033[33m#bambu Amarillo, \033[35m#bambu Rosado, \033[32m#bambu Verde\033[0m]"<<endl;
 
     std::string nombre_carta;
     cout<<"Cartas: "<<endl;
@@ -51,33 +77,30 @@ void Jugador::imprimir(){
     }  
 }
 void Jugador::recolectar_bambu(int color){
-    if (color >= 0 && color < 3){
-        if(bambus_almacenados[color]<3){
-            bambus_almacenados[color]++; 
-        }
-    }
+        this->bambus_almacenados[color]++;  
 }
+
 int Jugador::get_bambu_por_color(int color){
     return bambus_almacenados[color];
 }
 
-void Jugador::evaluar_panda()
-{
-    for (int c = 0; c < 4; c++)
-    {
-        if (this->cartas_jugador[c]->getTipo() == 'P')
-        {
-            for (int b = 0; b < 3; b++)
-            {
-                if (this->cartas_jugador[c]->getBambuMeta()[b] <= this->bambus_almacenados[b])
-                {
-                    this->puntos += this->cartas_jugador[c]->getPuntaje();
-                    CartaObjetivo* borrar = this->cartas_jugador[c];
-                    this->cartas_jugador[c] = new CartaObjetivo('P');
-                    this->cartas_jugador[c]-> ~CartaObjetivo();
+void Jugador::evaluar_panda(){
+    bool continuar_revisando = true;
+    for (int c = 2; c < 4; c++){    // Reviso las cartas de panda
+        for (int b = 0; b < 3; b++){    //Revisamos cada bambu de la carta
+            if(continuar_revisando){    //Si todavía podemos completar la carta que estamos revisando
+                if (this->cartas_jugador[c]->getBambuMeta()[b] > this->bambus_almacenados[b]){  // Si tenemos menos bambús de los necesarios
+                    continuar_revisando = false;    // Ya no podemos cumplir la carta
                 }
             }
         }
+        if(continuar_revisando){    // Si tenemos todos los bambús que necesitamos para la carta  
+            this->puntos += this->cartas_jugador[c]->getPuntaje();  // Sumamos el puntaje de la carta
+            for(int i = 0; i < 3; i++){this->bambus_almacenados[i]-=this->cartas_jugador[c]->getBambuMeta()[i];}    //Eliminamos los bambús almacenados
+            delete this->cartas_jugador[c];
+            this->cartas_jugador[c] = new CartaObjetivo('P');
+            c = 2;  // Al cumplir la carta, iniciamos la revisión otra vez
+        } 
     }
 }
 

@@ -11,35 +11,40 @@ using std::endl;
 
 int main() {
     srand(time(NULL));  //Establecemos la semilla que utilizaremos para la generación de números aleatorios
+    Juego* juego;
 
-    cout<<"Desea cargar una partida anterior? (1.Si / 2.No): ";
-    int cargar_partida {2};
-    cin>>cargar_partida;
+    // cout<<"Desea cargar una partida anterior? (1.Si / 2.No): ";
+    // int cargar_partida {2};
+    // cin>>cargar_partida;
 
-    system("cls");
+    // system("cls");
 
-    if(cargar_partida == 1){
-        //Código para cargar la partida desde un archivo de texto
-    }else{
-        std::string nombre_j1, nombre_j2;
+    // if(cargar_partida == 1){
+    //     //Código para cargar la partida desde un archivo de texto
+    // }else{
+    //     // std::string nombre_j1, nombre_j2;
 
-        cout<<"Ingrese el nombre del jugador 1: ";
-        cin>>nombre_j1;
+    //     // cout<<"Ingrese el nombre del jugador 1: ";
+    //     // cin>>nombre_j1;
 
-        cout<<"Ingrese el nombre del jugador 2: ";
-        cin>>nombre_j2;
+    //     // cout<<"Ingrese el nombre del jugador 2: ";
+    //     // cin>>nombre_j2;
 
-        cout<<"Ingrese la dimension del tablero (Para pruebas iniciales, ingresar 9): ";
-        int dimension;
-        cin>>dimension;
-        cout<<endl;
+    //     // cout<<"Ingrese la dimension del tablero (Para pruebas iniciales, ingresar 9): ";
+    //     // int dimension;
+    //     // cin>>dimension;
+    //     // cout<<endl;
 
-        cout<<"Ingrese los puntos a alcanzar(Para pruebas iniciales, ingresar 6): ";
-        int puntos;
-        cin>>puntos;
-        cout<<endl;
+    //     // cout<<"Ingrese los puntos a alcanzar(Para pruebas iniciales, ingresar 6): ";
+    //     // int puntos;
+    //     // cin>>puntos;
+    //     // cout<<endl;
 
-        Juego* juego = new Juego("a", "b", dimension, puntos);
-        juego->jugar();
-    }
+    //     juego = new Juego("Ale", "Fio", 9, 8);
+    //     // juego->jugar();
+    // }
+    juego = new Juego("J1", "J2", 9, 8);
+    juego->jugar();
+    // juego->mostrar_estado_del_juego();
+    // juego->guardar_en_archivo();
 }

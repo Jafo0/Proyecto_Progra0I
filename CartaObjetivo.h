@@ -1,6 +1,8 @@
 #ifndef CARTAOBJETIVO_H
 #define CARTAOBJETIVO_H
 
+#include <string>
+
 class CartaObjetivo{
     
 private:
@@ -12,9 +14,12 @@ public:
     CartaObjetivo(char); //Constructor de la carta. Recibe el tipo panda/jardinero
     CartaObjetivo(char, int, int*);
     ~CartaObjetivo();    //Destructor de la carta
+    void escribir_carta_objetivo(std::ofstream&);
+
     char getTipo();
 	int* getBambuMeta();
     int getPuntaje();
+
     void imprimir(std::string); //Recibe el nombre de la carta
 };
 

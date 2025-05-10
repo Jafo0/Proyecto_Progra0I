@@ -17,12 +17,17 @@ public:
     Jugador(std::string);
     Jugador(std::string, int, int[], CartaObjetivo**);
     ~Jugador();
+    void escribir_jugador(std::ofstream&);
     std::string get_nombre();
+    int get_puntos();
+    int* get_bambus_almacenados();
+    int get_bambu_por_color(int);
+
     void imprimir();
     void recolectar_bambu(int);
     void evaluar_panda();
     void evaluar_jardinero(Loseta*);
-    int get_bambu_por_color(int);
+
 };
 
 #endif //JUGADOR_H
