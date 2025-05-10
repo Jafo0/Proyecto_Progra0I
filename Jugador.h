@@ -21,6 +21,7 @@ public:
     void imprimir();
     void recolectar_bambu(int);
     void evaluar_panda(Loseta***, int);
+    int get_bambu_por_color(int);
 };
 
 #endif //JUGADOR_H

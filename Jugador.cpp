@@ -52,10 +52,14 @@ void Jugador::imprimir(){
 }
 void Jugador::recolectar_bambu(int color){
     if (color >= 0 && color < 3){
-        bambus_almacenados[color]++;  
+        if(bambus_almacenados[color]<3){
+            bambus_almacenados[color]++; 
+        }
     }
 }
-
+int Jugador::get_bambu_por_color(int color){
+    return bambus_almacenados[color];
+}
 void Jugador::evaluar_panda(Loseta*** tablero, int dimension_tablero)
 {
     //Revisa solamente la loseta que tiene el panda

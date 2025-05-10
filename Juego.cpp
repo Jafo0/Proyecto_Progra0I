@@ -180,12 +180,17 @@ bool Juego::usar_panda(int i, int j){
         
         this->panda[0] = i;     // Defino la nueva posición del panda
         this->panda[1] = j;
-        
-        this->tablero[this->panda[0]][this->panda[1]]->decrecer_bambu();        // Reduzco un bambu de la loseta    
         int color = this->tablero[i][j]->get_color();                           // Veo el color de la loseta
-        jugador_actual->recolectar_bambu(color);                                //El bambu comido se le agrega al jugador respectivo
-        return true;
+        if(jugador_actual->get_bambu_por_color(color)<3){
+            this->tablero[this->panda[0]][this->panda[1]]->decrecer_bambu();        // Reduzco un bambu de la loseta    
+            jugador_actual->recolectar_bambu(color);                                //El bambu comido se le agrega al jugador respectivo
+            return true;
+        }else{
+            jugador_actual->recolectar_bambu(color);                                //si es mayo a 3 simplemente no decrece el bambu
+            return true;
+        }
     }
+    return false;
     
     /*
     Aquí se llama a la función de evaluar carta objetivo con bambu recolectado
@@ -289,8 +294,14 @@ bool Juego::irrigar_adyacencia(int i, int j){
     }
     return false;
 }
+/*
+bool Juego::movimiento_general(int posiciones, int movimiento,int i, int j){
+    int i_actual = this->panda[0];
+    int j_actual = this->panda[1];
+    
+}
+*/
 
-//bool Juego::movimiento_general(int posiciones, int movimiento,int i, int j){}
 
 void Juego::jugar(){
     int ronda = 1;
