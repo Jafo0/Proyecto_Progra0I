@@ -9,5 +9,6 @@ public:
     Menu();
     ~Menu();
     int desplegar();
+    int menu_mov();
 };
 #endif //MENU_H

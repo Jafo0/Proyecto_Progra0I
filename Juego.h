@@ -23,7 +23,8 @@ class Juego{
     Jugador* j1;
     Jugador* j2;
     Jugador* jugador_actual;
-    
+    //int movimiento;
+    //int posiciones; atributos para movimiento
 
     public:
     Juego(std::string, std::string, int, int);
@@ -41,6 +42,8 @@ class Juego{
     bool usar_panda(int, int);
     bool realizar_accion();
     bool comprobar_adyacencia(int i, int j); //comprobar adyacencia de la loseta
+    bool irrigar_adyacencia(int i, int j);
+    //bool movimiento_general(int posiciones, int movimiento,int i, int j); //comprueba si es posible el movimiento de panda y jardinero
     void jugar();
     
 };

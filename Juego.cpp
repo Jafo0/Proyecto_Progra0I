@@ -135,14 +135,16 @@ bool Juego::crecer_jardin(int i, int j){
 }
 
 bool Juego::regar_loseta(int i, int j){
-
-    if(this->tablero[i][j] == nullptr){ //Si ya hay loseta creada
-        cout<<"\n\033[1;31m"<<"La casilla ingresasda no contiene una loseta. Vuelva a intentar."<<"\033[0m"<<endl;
+    if(this->tablero[i][j] == nullptr){ //Si no hay loseta creada
+        cout<<"\n\033[1;31m"<<"La casilla ingresada no contiene una loseta. Vuelva a intentar."<<"\033[0m"<<endl;
         return false;
     } else if(this->tablero[i][j]->get_irrigado()){
-        cout<<"\n\033[1;31m"<<"La casilla ingresasda ya contiene una loseta irrigada. Vuelva a intentar."<<"\033[0m"<<endl;
+        cout<<"\n\033[1;31m"<<"La casilla ingresada ya contiene una loseta irrigada. Vuelva a intentar."<<"\033[0m"<<endl;
         return false;
-    } else{
+    }else if(!irrigar_adyacencia(i,j)){
+        cout<<"\n\033[1;31m"<<"La Loseta no puede ser irrigada pues ninguna a su alrededor lo esta. Vuelva a intentar."<<"\033[0m"<<endl;
+        return false;
+    }else {
         this->tablero[i][j]->irrigar();
         return true;
     }
@@ -211,8 +213,20 @@ bool Juego::realizar_accion(){
         case 2: // Regar loseta
             return regar_loseta(i, j);
         case 3: // Usar jardinero
+        /*
+        int movimiento =this->menu->menu_mov();
+        int posiciones;
+        cout << "\nIndique cuántas posiciones se desea mover en esa dirección: ";
+        cin >> posiciones;
+        */ 
             return usar_jardinero(i, j);
         case 4: // Mover panda
+        /*
+        int movimiento =this->menu->menu_mov();
+        int posiciones;
+        cout << "\nIndique cuántas posiciones se desea mover en esa dirección: ";
+        cin >> posiciones;
+        */                                   //deberia actualizar el metodo para que trabaje con estos parametros
             return usar_panda(i, j);
         // No ocupamos caso default porque la función de desplegar ya se asegura obtener un valor entre el 1 y el 5
     }
@@ -223,16 +237,16 @@ bool Juego::comprobar_adyacencia(int i, int j){            //metodo para saber s
     
     int adyacentes_i[6], adyacentes_j[6];                  //me define cuales son adyacentes para cada posicion
 
-    if((i%2 == 0 && j%2 == 0) || (i%2 != 0 && j%2 == 0)){ //(P,P)=(I,P) con p par e i impar
-        int aux_i[6]={-1, -1, -1, 0, 1, 0};
-        int aux_j[6]= {-1, 0, 1, -1, 0, 1};
+    if((i%2 == 0 && j%2 == 0) || (i%2 == 0 && j%2 != 0)){ //(P,P)=(P,I) con p par e i impar
+        int aux_i[6]={-1, -2, -1, 1, 2, 1};
+        int aux_j[6]= {0, 0, -1, 0, 0, -1};
         for(int m = 0; m < 6; m++){
             adyacentes_i[m]=aux_i[m];
             adyacentes_j[m]=aux_j[m];
         }
-    }else{                                                //(I.I)=(P,I)
-        int aux_i[6]={0, -1, 0, 1, 1, 1};
-        int aux_j[6]= {-1, 0, 1, -1, 0, 1};
+    }else{                                                //(I.I)=(I,P)
+        int aux_i[6]={-1, -2, -1, 1, 2, 1};
+        int aux_j[6]= {1, 0, 0, 1, 0, 0};
         for(int m = 0; m < 6; m++){
             adyacentes_i[m]=aux_i[m];
             adyacentes_j[m]=aux_j[m];
@@ -248,6 +262,35 @@ bool Juego::comprobar_adyacencia(int i, int j){            //metodo para saber s
     }
     return false;
 }
+bool Juego::irrigar_adyacencia(int i, int j){
+    if(this->tablero[i][j]->get_irrigado()== true){return false;}
+    int adyacentes_i[6], adyacentes_j[6];                  //me define cuales son adyacentes para cada posicion
+    if((i%2 == 0 && j%2 == 0) || (i%2 == 0 && j%2 != 0)){  //(P,P)=(P,I) con p par e i impar
+        int aux_i[6]={-1, -2, -1, 1, 2, 1};
+        int aux_j[6]= {0, 0, -1, 0, 0, -1};
+        for(int m = 0; m < 6; m++){
+            adyacentes_i[m]=aux_i[m];
+            adyacentes_j[m]=aux_j[m];
+        }
+    }else{                                                //(I.I)=(I,P)
+        int aux_i[6]={-1, -2, -1, 1, 2, 1};
+        int aux_j[6]= {1, 0, 0, 1, 0, 0};
+        for(int m = 0; m < 6; m++){
+            adyacentes_i[m]=aux_i[m];
+            adyacentes_j[m]=aux_j[m];
+        }
+    }
+    for(int m=0; m<6;m++){                               
+        int nuevo_i = i + adyacentes_i[m];
+        int nuevo_j = j + adyacentes_j[m];
+        if(nuevo_i>=0 && nuevo_i<= this->dimension_tablero && nuevo_j>=0 && nuevo_j<= this->dimension_tablero){
+            if((this->tablero[nuevo_i][nuevo_j] != nullptr) &&(this->tablero[nuevo_i][nuevo_j]->get_irrigado()==true)){return true;}
+        }
+    }
+    return false;
+}
+
+//bool Juego::movimiento_general(int posiciones, int movimiento,int i, int j){}
 
 void Juego::jugar(){
     int ronda = 1;
