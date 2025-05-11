@@ -231,12 +231,11 @@ bool Juego::nueva_posicion_panda(int i, int j){
         if(this->tablero[this->panda[0]][this->panda[1]]->get_cantidad_bambu() > 0){   //La loseta a la que movimos el panda tiene bambu
             this->tablero[this->panda[0]][this->panda[1]]->decrecer_bambu();    // Reduzco un bambu
             this->jugador_actual->recolectar_bambu(color);      // Le sumo un bambu al jugador
-            /*
-            Aquí se llama a la función de evaluar carta objetivo con bambu recolectado
-            */
+            this->jugador_actual->evaluar_panda();
+            return true;
         } 
-    }    
-
+    } 
+    return false; // Se movió, pero no comió   
 }
 
 bool Juego::mover_personaje(int cantidad, int sentido, int i_temp, int j_temp, int mov_realizados, bool es_jardinero){

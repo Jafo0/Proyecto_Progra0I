@@ -39,7 +39,6 @@ int menu_mov(){
         cout << "5. Abajo" << endl;
         cout << "6. Abajo-derecha" << endl;
         
-        
         cout << "\nIndique movimiento a realizar (1-6): ";
         cin >> movimiento;
 

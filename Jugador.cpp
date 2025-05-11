@@ -85,25 +85,33 @@ int Jugador::get_bambu_por_color(int color){
 }
 
 void Jugador::evaluar_panda(){
-    bool continuar_revisando = true;
-    for (int c = 2; c < 4; c++){    // Reviso las cartas de panda
-        for (int b = 0; b < 3; b++){    //Revisamos cada bambu de la carta
-            if(continuar_revisando){    //Si todavía podemos completar la carta que estamos revisando
-                if (this->cartas_jugador[c]->getBambuMeta()[b] > this->bambus_almacenados[b]){  // Si tenemos menos bambús de los necesarios
-                    continuar_revisando = false;    // Ya no podemos cumplir la carta
+     for (int indice = 0; indice < 4; indice++) {       // Reviso las 4 cartas del jugador
+        CartaObjetivo* carta = this->cartas_jugador[indice];
+        if (carta->getTipo() == 'P') {                  // Solo si es carta de tipo Panda
+            bool cumplible = true;
+
+            for (int i = 0; i < 3; i++) {              // Hay 3 tipos de bambú
+                if (this->bambus_almacenados[i] < carta->getBambuMeta()[i]) {
+                    cumplible = false;
+                    break;
                 }
             }
+
+            if (cumplible) {
+                this->puntos += carta->getPuntaje();
+                for (int i = 0; i < 3; i++) {
+                    this->bambus_almacenados[i] -= carta->getBambuMeta()[i];
+                }
+
+                // Eliminar carta cumplida y asignar una nueva
+                delete this->cartas_jugador[indice];
+                this->cartas_jugador[indice] = new CartaObjetivo('P');
+                indice = -1; 
+            }
         }
-        if(continuar_revisando){    // Si tenemos todos los bambús que necesitamos para la carta  
-            this->puntos += this->cartas_jugador[c]->getPuntaje();  // Sumamos el puntaje de la carta
-            for(int i = 0; i < 3; i++){this->bambus_almacenados[i]-=this->cartas_jugador[c]->getBambuMeta()[i];}    //Eliminamos los bambús almacenados
-            delete this->cartas_jugador[c];
-            this->cartas_jugador[c] = new CartaObjetivo('P');
-            c = 2;  // Al cumplir la carta, iniciamos la revisión otra vez
-        } 
     }
 }
-
+/*
 void Jugador::evaluar_jardinero(Loseta* jardinero){
     for (int c = 0; c < 4; c++){
         if (this->cartas_jugador[c]->getTipo() == 'J'){
@@ -118,3 +126,4 @@ void Jugador::evaluar_jardinero(Loseta* jardinero){
         }
     }
 }
+*/

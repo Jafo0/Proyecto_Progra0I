@@ -26,7 +26,7 @@ public:
     void imprimir();
     void recolectar_bambu(int);
     void evaluar_panda();
-    void evaluar_jardinero(Loseta*);
+    //void evaluar_jardinero();
 
 };
 
