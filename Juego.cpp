@@ -51,7 +51,14 @@ Aquí va el constructor que recibe todos los atributos y los inicializa
 Juego::~Juego(){}
 
 void Juego::alternar_jugador(){
+    if(this->jugador_actual == this->j2){
+        this->ronda++;
+        this->ronda_completa = true;
+    }else{
+        this->ronda_completa = false;
+    }
     this->jugador_actual = (this->jugador_actual == this->j1)? this->j2 : this->j1;
+    this->accion_jugador_actual = 1;
 }
 
 void Juego::imprimir_tablero(){
@@ -109,15 +116,9 @@ void Juego::mostrar_estado_del_juego(){
     this->j2->imprimir();
     cout<<endl;
     imprimir_tablero();
+    cout<<"\nPuntos por alcanzar: "<<this->puntos_juego<<"\t\t|\t"<<"Ronda: "<<this->ronda<<"\t|\tTurno de: "<<this->jugador_actual->get_nombre()<<"\t|\tAccion #: "<<this->accion_jugador_actual<<endl;
 }
 
-void Juego::definir_fin_del_juego(){
-    int decision;
-    cout<<"\nDesea finalizar el juego(1.Si / 2.No)?: ";
-    cin>>decision;
-    if(decision == 1){this->fin_del_juego = true;}
-
-}
 
 void Juego::guardar_en_archivo(){
     std::ofstream archivo {"ArchivoJuego.txt"};
@@ -209,123 +210,164 @@ bool Juego::regar_loseta(int i, int j){
         return true;
     }
 }
-
-bool Juego::usar_jardinero(int i, int j){
-    if(i == this->jardinero[0] && j == this->jardinero[1]){     // La posicion del jardinero no cambia
-        cout<<"\n\033[1;31m"<<"El jardinero no fue movido. Vuelva a intentar."<<"\033[0m"<<endl;
-        return false;
-    } else if(this->tablero[i][j] == nullptr){      // No hay una loseta
-        cout<<"\n\033[1;31m"<<"La casilla ingresada no contiene una loseta. Vuelva a intentar."<<"\033[0m"<<endl;
-        return false;
-    } else{
-        
-        this->jardinero[0] = i;     // Defino la nueva posición del jardinero
-        this->jardinero[1] = j;
-        
-        if(this->tablero[this->jardinero[0]][this->jardinero[1]]->get_cantidad_bambu() == 9){
-            cout<<"\n\033[1;31m"<<"El jardinero fue movido pero no crecio bambu, porque el maximo por loseta es de 9."<<"\033[0m"<<endl;
-            cout<<"\n\033[1;31m"<<"Presione lo que sea para continuar: "<<"\033[0m";    //Esto es para darle tiempo al usuario de leer y entender
-            std::string basura;
-            cin>>basura;
-        } else{ //Si tiene menos de 9 bambús, crece uno
-            this->tablero[this->jardinero[0]][this->jardinero[1]]->crecer_bambu();
-        }
-        return true;
-    }
-}
-
-bool Juego::usar_panda(int i, int j){
-    if(i == this->panda[0] && j == this->panda[1]){     // La posicion del panda no cambia
-        cout<<"\n\033[1;31m"<<"El panda no fue movido. Vuelva a intentar."<<"\033[0m"<<endl;
-        return false;
-    } else if(this->tablero[i][j] == nullptr){      // No hay una loseta
-        cout<<"\n\033[1;31m"<<"La casilla ingresada no contiene una loseta. Vuelva a intentar."<<"\033[0m"<<endl;
-        return false;
-    } else{ // Sí podemos mover el panda
-        this->panda[0] = i;     // Defino la nueva posición del panda
-        this->panda[1] = j;
-        int color = this->tablero[i][j]->get_color();                           // Veo el color de la loseta
-        if(color != 3){ //Si no es la loseta estanque
-            if(this->tablero[this->panda[0]][this->panda[1]]->get_cantidad_bambu() > 0){   //La loseta a la que movimos el panda tiene bambu
-                this->tablero[this->panda[0]][this->panda[1]]->decrecer_bambu();    // Reduzco un bambu
-                this->jugador_actual->recolectar_bambu(color);      // Le sumo un bambu al jugador
-                this->jugador_actual->evaluar_panda();  // Evalúo si cumplí alguna carta objetivo de panda
-            } 
-        }    
-        
-        return true;
-    }
-    return false;
+void Juego::nueva_posicion_jardinero(int i, int j){    //En este punto, la posición indicada sí contiene una loseta
+    this->jardinero[0] = i;     // Defino la nueva posición del jardinero
+    this->jardinero[1] = j;
     
-    /*
-    Aquí se llama a la función de evaluar carta objetivo con bambu recolectado
-    */
+    if(this->tablero[this->jardinero[0]][this->jardinero[1]]->get_cantidad_bambu() == 9){
+        cout<<"\n\033[1;31m"<<"El jardinero fue movido pero no crecio bambu, porque el maximo por loseta es de 9."<<"\033[0m"<<endl;
+        cout<<"\n\033[1;31m"<<"Presione lo que sea para continuar: "<<"\033[0m";    //Esto es para darle tiempo al usuario de leer y entender
+        std::string basura;
+        cin>>basura;
+    } else{ //Si tiene menos de 9 bambús, crece uno
+        this->tablero[this->jardinero[0]][this->jardinero[1]]->crecer_bambu();
+    }
+}
+bool Juego::nueva_posicion_panda(int i, int j){
+    this->panda[0] = i;     // Defino la nueva posición del panda
+    this->panda[1] = j;
+    int color = this->tablero[i][j]->get_color();                           // Veo el color de la loseta
+    if(color != 3){ //Si no es la loseta estanque
+        if(this->tablero[this->panda[0]][this->panda[1]]->get_cantidad_bambu() > 0){   //La loseta a la que movimos el panda tiene bambu
+            this->tablero[this->panda[0]][this->panda[1]]->decrecer_bambu();    // Reduzco un bambu
+            this->jugador_actual->recolectar_bambu(color);      // Le sumo un bambu al jugador
+            /*
+            Aquí se llama a la función de evaluar carta objetivo con bambu recolectado
+            */
+        } 
+    }    
+
 }
 
+bool Juego::mover_personaje(int cantidad, int sentido, int i_temp, int j_temp, int mov_realizados, bool es_jardinero){
+    if(cantidad == mov_realizados){ //Cumplimos la cantidad de movimientos
+        if(es_jardinero){nueva_posicion_jardinero(i_temp, j_temp);}
+        else{nueva_posicion_panda(i_temp, j_temp);}
+        return true;
+    }else{  //No hemos completado la cantidad de movimientos
+        int i_siguiente, j_siguiente;   //Defino la casilla del próximo movimiento
+        switch (sentido) {
+            case 1: // Arriba izquierda
+                if(i_temp%2 != 0){  //Estoy en fila impar
+                    i_siguiente = i_temp - 1;
+                    j_siguiente = j_temp;
+                }else{  // Estoy en fila par
+                    i_siguiente = i_temp - 1;
+                    j_siguiente = j_temp - 1;
+                }
+                break;
+            case 2: // Arriba
+                i_siguiente = i_temp - 2;
+                j_siguiente = j_temp;
+                break;
+            case 3: // Arriba derecha
+                if(i_temp%2 != 0){  //Estoy en fila impar
+                    i_siguiente = i_temp - 1;
+                    j_siguiente = j_temp + 1;
+                }else{  // Estoy en fila par
+                    i_siguiente = i_temp - 1;
+                    j_siguiente = j_temp;
+                }
+                break;
+            case 4: // Abajo izquierda
+                if(i_temp%2 != 0){  //Estoy en fila impar
+                    i_siguiente = i_temp + 1;
+                    j_siguiente = j_temp;
+                }else{  // Estoy en fila par
+                    i_siguiente = i_temp + 1;
+                    j_siguiente = j_temp - 1;
+                }
+                break;
+            case 5: // Abajo
+                i_siguiente = i_temp + 2;
+                j_siguiente = j_temp;
+                break;
+            case 6: // Abajo derecha
+                if(i_temp%2 != 0){  //Estoy en fila impar
+                    i_siguiente = i_temp + 1;
+                    j_siguiente = j_temp + 1;
+                }else{  // Estoy en fila par
+                    i_siguiente = i_temp + 1;
+                    j_siguiente = j_temp;
+                }
+                break;
+        }
+        //Casos para terminar o continuar la recursión
+        if(0<=i_siguiente && i_siguiente<this->dimension_tablero && 0<=j_siguiente && j_siguiente<this->dimension_tablero){ //Estaré dentro del tablero
+            if(this->tablero[i_siguiente][j_siguiente] == nullptr){ // En el movimiento siguiente no hay loseta
+                cout<<"\n\033[1;31m"<<"Esa cantidad de espacios para este movimiento no se puede porque llegamos a una loseta nula. Vuelva a intentar."<<"\033[0m"<<endl;
+                return false;
+            }else{  // En el movimiento siguiente sí hay loseta
+                return mover_personaje(cantidad, sentido, i_siguiente, j_siguiente, mov_realizados+1, es_jardinero);
+            }
+        }else{  // Estaré fuera del tablero
+            cout<<"\n\033[1;31m"<<"Esa cantidad de espacios para este movimiento se sale de las dimensiones del tablero. Vuelva a intentar."<<"\033[0m"<<endl;
+            return false;
+        }
+    }
+}
 
 bool Juego::realizar_accion(){
-    int eleccion = desplegar();
+    int accion = desplegar();   //Escogemos la acción que vamos a realizar
+    int direccion_mov, cant, posicion, i, j;    //Variables necesarias
+    if(accion == 5){    // Fin del juego
+        this->fin_del_juego = true;
+        return true;
+    }else { // Cualquier acción que no sea finalizar el juego
+        if(accion == 3 || accion==4){  // Movemos jardinero/panda
+            direccion_mov = menu_mov();
+            while(true){
+                cout<<"\nIngrese la cantidad de espacios que desea moverse en esa direccion: ";
+                cin>>cant;
+                if(cant<1){
+                    cout<<"\nIngrese una cantidad de espacios mayor a cero";
+                }else{break;}
+            }
+            if(accion == 3){return mover_personaje(cant, direccion_mov, this->jardinero[0], this->jardinero[1], 0, true);}
+            else{return mover_personaje(cant, direccion_mov, this->panda[0], this->panda[1], 0, false);} 
+        }else{  //Crear/Irrigar loseta
+            cout<<"\nIngrese la casilla de la accion a realizar: ";
+            cin>>posicion;
 
-    if(eleccion == 3 || eleccion==4){
-        int mov = menu_mov();
-    }
+            i = posicion/10;
+            j = posicion%10;
 
-    int posicion, i, j;
-
-    cout<<"\nIngrese la casilla de la accion a realizar: ";
-    cin>>posicion;
-
-    i = posicion/10;
-    j = posicion%10;
-
-    if(i<0||this->dimension_tablero-1<i||j<0||this->dimension_tablero-1<j){  // La entrada se sale de las dimensiones del tablero
-        cout<<"\n\033[1;31m"<<"La casilla se sale de las dimensiones del tablero. Vuelva a intentar."<<"\033[0m"<<endl;
-        return false;
-    }  
-    switch(eleccion) 
-        case 1: {// Crecer Jardin. 
-            return crecer_jardin(i, j);
-        case 2: // Regar loseta
-            return regar_loseta(i, j);
-        case 3:{ // Usar jardinero
-        /*
-        int posiciones;
-        cout << "\nIndique cuántas posiciones se desea mover en esa dirección: ";
-        cin >> posiciones;
-        */ 
-            return usar_jardinero(i, j);
-        }case 4:{ // Mover panda
-        /*
-        int posiciones;
-        cout << "\nIndique cuántas posiciones se desea mover en esa dirección: ";
-        cin >> posiciones;
-        */                                   //deberia actualizar el metodo para que trabaje con estos parametros
-            return usar_panda(i, j);
+            if(i<0||this->dimension_tablero-1<i||j<0||this->dimension_tablero-1<j){  // La entrada se sale de las dimensiones del tablero
+                cout<<"\n\033[1;31m"<<"La casilla se sale de las dimensiones del tablero. Vuelva a intentar."<<"\033[0m"<<endl;
+                return false;
+            }  
+            if(accion == 1){return crecer_jardin(i, j);}    //Crecer jardín
+            else{return regar_loseta(i, j);}    // Regar loseta
         }
-        // No ocupamos caso default porque la función de desplegar ya se asegura obtener un valor entre el 1 y el 5
     }
-    return false;
+}
+
+void Juego::revisar_ganador(){
+    if(this->j1->get_puntos() >= this->puntos_juego || this->j2->get_puntos() >= this->puntos_juego){
+        this->fin_del_juego = true;
+        if(this->j1->get_puntos() == this->j2->get_puntos()){
+            cout<<"El juego terminó en empate"<<endl;
+        }else if(this->j1->get_puntos() > this->j2->get_puntos()){
+            cout<<"El jugador: "<<this->j1->get_nombre()<<", ha ganado. Felicidades!"<<endl;
+        }else {
+            cout<<"El jugador: "<<this->j2->get_nombre()<<", ha ganado. Felicidades!"<<endl;
+        }
+    }  
 }
 
 void Juego::jugar(){
     while(!this->fin_del_juego){
-        // system("cls");    // Limpio la terminal
+        
+        system("cls");    // Limpio la terminal
         mostrar_estado_del_juego();
-        // definir_fin_del_juego();
-
-        if(true){
-            for(int i = 0; i < 2; i++){ // Dos jugadores
-                for(int j = 1; j < 3; j++){ // Dos acciones por jugador
-                    system("cls");    // Limpio la terminal
-                    mostrar_estado_del_juego();
-                    cout<<"\nPuntos por alcanzar: "<<this->puntos_juego<<"\t\t|\t"<<"Ronda: "<<this->ronda<<"\t|\tTurno de: "<<this->jugador_actual->get_nombre()<<"\t|\tAccion #: "<<j<<endl;
-                    while(!realizar_accion());
-                    guardar_en_archivo();
-                }
-                alternar_jugador();
-                guardar_en_archivo();
-            }
-            ronda++;
+        while(!realizar_accion());
+        guardar_en_archivo();
+        this->accion_jugador_actual++;
+        if(accion_jugador_actual == 3){
+            alternar_jugador();
+        }
+        if(this->ronda_completa){   // Si terminamos una ronda
+            revisar_ganador();
         }
     }
 }

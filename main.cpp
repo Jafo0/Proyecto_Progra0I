@@ -13,38 +13,49 @@ int main() {
     srand(time(NULL));  //Establecemos la semilla que utilizaremos para la generación de números aleatorios
     Juego* juego;
 
-    // cout<<"Desea cargar una partida anterior? (1.Si / 2.No): ";
-    // int cargar_partida {2};
-    // cin>>cargar_partida;
+    cout<<"Desea cargar una partida anterior? (1.Si / 2.No): ";
+    int cargar_partida {2};
+    cin>>cargar_partida;
 
-    // system("cls");
+    system("cls");
 
-    // if(cargar_partida == 1){
-    //     //Código para cargar la partida desde un archivo de texto
-    // }else{
-    //     // std::string nombre_j1, nombre_j2;
+    if(cargar_partida == 1){
+        //Código para cargar la partida desde un archivo de texto
+    }else{
+        std::string nombre_j1, nombre_j2;
 
-    //     // cout<<"Ingrese el nombre del jugador 1: ";
-    //     // cin>>nombre_j1;
+        cout<<"Ingrese el nombre del jugador 1 (sin espacios): ";
+        cin>>nombre_j1;
 
-    //     // cout<<"Ingrese el nombre del jugador 2: ";
-    //     // cin>>nombre_j2;
+        cout<<"Ingrese el nombre del jugador 2 (sin espacios): ";
+        cin>>nombre_j2;
 
-    //     // cout<<"Ingrese la dimension del tablero (Para pruebas iniciales, ingresar 9): ";
-    //     // int dimension;
-    //     // cin>>dimension;
-    //     // cout<<endl;
+        int dimension;
+        while(true){
+            cout<<"Ingrese la dimension del tablero (Número impar menor o igual a 9): ";
+            cin>>dimension;
+            cout<<endl;
+            if(1<=dimension && dimension<=9 && dimension%2 != 0){
+                break;
+            }else{
+                cout<<"\033[1;31m"<<"Por favor ingrese una dimension segun lo solicitado. Vueva a intentar."<<"\033[0m"<<endl;
+            }
+        }
 
-    //     // cout<<"Ingrese los puntos a alcanzar(Para pruebas iniciales, ingresar 6): ";
-    //     // int puntos;
-    //     // cin>>puntos;
-    //     // cout<<endl;
+        int puntos;
+        while(true){
+            cout<<"Ingrese los puntos a alcanzar(Maximo 15): ";
+            cin>>puntos;
+            cout<<endl;
+            if(1<=puntos && puntos<=15){
+                break;
+            }else{
+                cout<<"\033[1;31m"<<"Por favor ingrese los puntos a alcanzar segun lo solicitado. Vueva a intentar."<<"\033[0m"<<endl;
+            }
+        }
+        
+        juego = new Juego(nombre_j1, nombre_j2, dimension, puntos);
+        juego->jugar();
+    }
 
-    //     juego = new Juego("Ale", "Fio", 9, 8);
-    //     // juego->jugar();
-    // }
-    juego = new Juego("J1", "J2", 9, 8);
-    juego->jugar();
-    // juego->mostrar_estado_del_juego();
-    // juego->guardar_en_archivo();
 }

@@ -1,0 +1,13 @@
+Juego,15,5,1,le
+Jugador,le,0,0,0,0
+CartaObjetivo,4,J,4,2
+CartaObjetivo,4,J,5,1
+CartaObjetivo,1,P,2,3,2
+CartaObjetivo,4,P,3,2,2
+Jugador,Fio,0,0,0,0
+CartaObjetivo,1,J,3,2
+CartaObjetivo,4,J,4,1
+CartaObjetivo,2,P,3,3,3
+CartaObjetivo,2,P,3,1,2
+		Tablero:
+Loseta,22,E,3,1,0
