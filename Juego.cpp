@@ -48,7 +48,19 @@ Juego::Juego(int* panda, int* jardinero, int dimension, int puntos,
                fin_del_juego(fin_del_juego),accion_jugador_actual(accion_jugador_actual), 
                j1(j1), j2(j2), jugador_actual(jugador_actual),tablero(tablero){}
 
-Juego::~Juego(){}
+Juego::~Juego(){
+    delete[] this->jardinero;
+    delete[] this->panda;
+    delete[] this->j1;
+    delete[] this->j2;
+    for(int i = 0; i<9; i++){
+        for(int j = 0; j<9; j++){
+            delete[] this->tablero[i][j];
+        }
+        delete[] this->tablero[i];
+    }
+    delete[] this->tablero;
+}
 
 void Juego::alternar_jugador(){
     if(this->jugador_actual == this->j2){

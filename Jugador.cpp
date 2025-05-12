@@ -26,9 +26,9 @@ Jugador::Jugador(std::string _nombre): nombre(_nombre){
 
 Jugador::~Jugador(){
     for(int i = 0; i < 4; ++i) {
-        delete cartas_jugador[i];  // Elimino cada objeto
+        delete this->cartas_jugador[i];  // Elimino cada objeto
     }
-    delete[] cartas_jugador;       // Elimino el array de punteros
+    delete[] this->cartas_jugador;       // Elimino el array de punteros
 }
 
 void Jugador::escribir_jugador(std::ofstream& archivo){

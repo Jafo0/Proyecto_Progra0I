@@ -27,7 +27,7 @@ CartaObjetivo::CartaObjetivo(char tipo_e, int puntaje_e, int* bambu_meta_e)
     :tipo(tipo_e), puntaje(puntaje_e), bambu_meta(bambu_meta_e){}
     
 CartaObjetivo::~CartaObjetivo(){            //Destructor
-    delete[] this->bambu_meta;
+        delete[] this->bambu_meta;
 };
 
 void CartaObjetivo::escribir_carta_objetivo(std::ofstream& archivo){
