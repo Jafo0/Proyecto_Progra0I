@@ -54,4 +54,5 @@ int main() {
     }
     
     juego->jugar();
+    delete juego;
 }
