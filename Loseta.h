@@ -20,7 +20,7 @@ public:
 
     Loseta* leer_loseta(std::string*);
 
-    char get_tipo();
+
     int get_color();
     bool get_irrigado();
     int get_cantidad_bambu();

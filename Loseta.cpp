@@ -36,7 +36,7 @@ void Loseta::escribir_loseta(std::ofstream& archivo, int i, int j){
              this->cantidad_bambu<<endl;
 }
 
-char Loseta::get_tipo(){return this->tipo_loseta;}
+
 
 int Loseta::get_color(){return this->color;}
 
@@ -51,9 +51,7 @@ void Loseta::crecer_bambu() {
     }
 }
 
-void Loseta::decrecer_bambu(){
-    this->cantidad_bambu--;
-}
+void Loseta::decrecer_bambu(){this->cantidad_bambu--;}
 
 void Loseta::irrigar(){this->irrigado = true;}
 

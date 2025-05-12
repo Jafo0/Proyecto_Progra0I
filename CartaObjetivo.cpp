@@ -9,7 +9,7 @@ using std::endl;
                  
 CartaObjetivo::CartaObjetivo(char _tipo){   //Constructor
     this->tipo = _tipo;                     //Defino el tipo de carta objetivo (panda/jardinero)
-    this->puntaje = (rand() % 4) + 1;       //Defino mi puntaje aleatorio entre 1 y 4. La semilla se define en el main
+    this->puntaje = (rand() % 3) + 1;       //Defino mi puntaje aleatorio entre 1 y 3. La semilla se define en el main
     
     //Defino el bambu meta
     if(this->tipo == 'J'){      
@@ -27,7 +27,7 @@ CartaObjetivo::CartaObjetivo(char tipo_e, int puntaje_e, int* bambu_meta_e)
     :tipo(tipo_e), puntaje(puntaje_e), bambu_meta(bambu_meta_e){}
     
 CartaObjetivo::~CartaObjetivo(){            //Destructor
-        delete[] this->bambu_meta;
+    delete[] this->bambu_meta;
 };
 
 void CartaObjetivo::escribir_carta_objetivo(std::ofstream& archivo){
@@ -68,7 +68,7 @@ void CartaObjetivo::imprimir(std::string nombre_carta){
                 break;
         }
         cout<<this->bambu_meta[0]<<"\033[0m";
-        cout<<", "<<this->bambu_meta[1]<<"]\t\tEstructura: [";
+        cout<<"]\t\tEstructura: [";
         switch(this->bambu_meta[1]) {
             case 0:
                 cout<<"\033[33m"; // Amarillo

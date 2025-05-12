@@ -158,7 +158,7 @@ Juego* leer_juego(std::ifstream& archivo, Jugador* j1, Jugador* j2, int* panda, 
     datos = lector(8, linea_temp);
 
     int dimension_tablero = datos[1][0] - '0'; //Leo el string, lo convierto a char y luego a int
-    int puntos_por_alcanzar = (datos[2][0] - '0')*10 + (datos[2][1] - '0'); //Leo el string, lo convierto a char y luego a int
+    int puntos_por_alcanzar = (datos[2][0] - '0'); //Leo el string, lo convierto a char y luego a int
     int ronda = datos[3][0] - '0'; //Leo el string, lo convierto a char y luego a int
     bool ronda_completa = ((datos[4][0] - '0') == 1)? true:false;
     bool fin_del_juego = ((datos[5][0] - '0') == 1)? true:false;

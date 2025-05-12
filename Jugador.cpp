@@ -99,6 +99,7 @@ void Jugador::evaluar_panda(){
 
             if (cumplible) {
                 this->puntos += carta->getPuntaje();
+                if(this->puntos>9){this->puntos = 9;}
                 for (int i = 0; i < 3; i++) {
                     this->bambus_almacenados[i] -= carta->getBambuMeta()[i];
                 }
@@ -114,12 +115,13 @@ void Jugador::evaluar_panda(){
 void Jugador::evaluar_jardinero(int color, int cantidad){
     for (int indice = 0; indice < 4; indice++) {       // Reviso las 4 cartas del jugador
         CartaObjetivo* carta = this->cartas_jugador[indice];
-        if (carta->getTipo() == 'J') {                  // Solo si es carta de tipo Panda
+        if (carta->getTipo() == 'J') {                  // Solo si es carta de tipo Jardinero
             if(carta->getBambuMeta()[1]==color && carta->getBambuMeta()[0]<=cantidad){
                 this->puntos += carta->getPuntaje();
+                if(this->puntos>9){this->puntos = 9;}
+                delete this->cartas_jugador[indice];
+                this->cartas_jugador[indice]= new CartaObjetivo('J');
             }
-            delete this->cartas_jugador[indice];
-            this->cartas_jugador[indice]= new CartaObjetivo('J');
         }
     } 
 }

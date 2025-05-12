@@ -237,7 +237,8 @@ void Juego::nueva_posicion_jardinero(int i, int j){    //En este punto, la posic
     } else{ //Si tiene menos de 9 bambús, crece uno
         this->tablero[this->jardinero[0]][this->jardinero[1]]->crecer_bambu();
     }
-    this->jugador_actual->evaluar_jardinero(this->tablero[i][j]->get_color(), this->tablero[i][j]->get_cantidad_bambu());
+    this->j1->evaluar_jardinero(this->tablero[i][j]->get_color(), this->tablero[i][j]->get_cantidad_bambu());
+    this->j2->evaluar_jardinero(this->tablero[i][j]->get_color(), this->tablero[i][j]->get_cantidad_bambu());
 }
 void Juego::nueva_posicion_panda(int i, int j){
     this->panda[0] = i;     // Defino la nueva posición del panda
@@ -359,6 +360,7 @@ bool Juego::realizar_accion(){
 void Juego::revisar_ganador(){
     if(this->j1->get_puntos() >= this->puntos_juego || this->j2->get_puntos() >= this->puntos_juego){
         this->fin_del_juego = true;
+        cout<<"\n-------------------------------------------"<<endl;
         if(this->j1->get_puntos() == this->j2->get_puntos()){
             cout<<"El juego terminó en empate"<<endl;
         }else if(this->j1->get_puntos() > this->j2->get_puntos()){
@@ -366,13 +368,14 @@ void Juego::revisar_ganador(){
         }else {
             cout<<"El jugador: "<<this->j2->get_nombre()<<", ha ganado. Felicidades!"<<endl;
         }
+        cout<<"-------------------------------------------"<<endl;
     }  
 }
 
 void Juego::jugar(){
     while(!this->fin_del_juego){
         
-        // system("cls");    // Limpio la terminal
+        system("cls");    // Limpio la terminal
         mostrar_estado_del_juego();
         while(!realizar_accion());
         if(!this->fin_del_juego){

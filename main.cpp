@@ -50,44 +50,8 @@ int main() {
             }
         }
 
-        int puntos;
-        while(true){
-            cout<<"Ingrese los puntos a alcanzar(Entre 10 y 20): ";
-            cin>>puntos;
-            cout<<endl;
-            if(10<=puntos && puntos<=20){
-                break;
-            }else{
-                cout<<"\033[1;31m"<<"Por favor ingrese los puntos a alcanzar segun lo solicitado. Vueva a intentar."<<"\033[0m"<<endl;
-            }
-        }
-        
-        juego = new Juego(nombre_j1, nombre_j2, dimension, puntos);
+        juego = new Juego(nombre_j1, nombre_j2, dimension, 9);
     }
+    
     juego->jugar();
 }
-
-// int main() {    //Main para pruebas rápidas
-//     srand(time(NULL));  //Establecemos la semilla que utilizaremos para la generación de números aleatorios
-//     Juego* juego;
-//     int cargar_partida {2};
-//     while(true){
-//             cout<<"Desea cargar una partida anterior? (1.Si / 2.No): ";
-//             cin>>cargar_partida;
-//             cout<<endl;
-
-//             if(cargar_partida == 1 || cargar_partida == 2){
-//                 break;
-//             }else{
-//                 cout<<"\033[1;31m"<<"Por favor ingrese una lo solicitado. Vueva a intentar."<<"\033[0m"<<endl;
-//             }
-//         }
-//     system("cls");
-
-//     if(cargar_partida == 1){
-//         juego = cargar_juego();
-//     }else{
-//         juego = new Juego("Primero", "Segundo", 9, 15);
-//     }
-//     juego->jugar();
-// }
