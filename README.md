@@ -34,6 +34,7 @@ Suposiciones realizadas/Consideraciones generales:
     -El juego NO está hecho a prueba de errores en cuánto a recepción de datos. Si pide un entero y se ingresa un string, por ejemplo, el código entra en un bucle infinito.
     -El juego SÍ está hecho a prueba de errores en cuanto a ingresar un valor no esperado PERO del mismo tipo de dato. Por ejemplo, el jugador no pierde su turno al intentar irrigar una loseta ya irrigada.
     -Al imprimir el tablero, la codificación es la siguiente: Primeros dos números son identificador de posición. El asterisco indica si la loseta está irrigada. El subrayado indica la posición del jardinero. El tachado indica la posición del panda. La loseta estanque es la azul. Las posiciones blancas corresponden a espacios vacíos, NO CONTIENEN LOSETAS. El resto de colores, son para el color de loseta generada.
+    -El código evalúa si cumplimos alguna carta objetivo luego de cada movimiento de panda/jardinero. En caso de cumplirla, se genera una nueva. En caso de que la nueva generada también se pueda cumplir, el código la evaluará hasta  el próximo movimiento de panda/jardinero del mismo jugador.
 
     ->Sobre el tablero:
         -Máximo de 9x9
@@ -41,6 +42,16 @@ Suposiciones realizadas/Consideraciones generales:
         -Una carta objetivo de tipo jardinero puede tener entre 1 y 5 bambús de un mismo color
         -Una carta objetivo de tipo panda puede tener entre 1 y 3 bambús de cada color
         -Una loseta puede tener máximo 9 bambús
+
+
+    Sobre la forma de guardar la información:
+        Carta jardinero: CartaObjetivo, puntaje, tipo, cantidad, color
+        Carta panda: CartaObjetivo, puntaje, tipo, cantidad1, cantidad2, cantidad3
+        Jugador: Jugador, nombre, puntos, bambusalmacenados1, bambusalmacenados2, bambusalmacenados3
+            Carta1
+            Carta2
+            Carta3
+            Carta4
 
 
         

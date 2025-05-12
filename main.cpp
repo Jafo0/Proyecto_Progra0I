@@ -4,6 +4,7 @@
 #include <string>
 
 #include "Juego.h"
+#include "FuncionesComplementarias.h"
 
 using std::cout;
 using std::cin;
@@ -12,15 +13,22 @@ using std::endl;
 int main() {
     srand(time(NULL));  //Establecemos la semilla que utilizaremos para la generación de números aleatorios
     Juego* juego;
-
-    cout<<"Desea cargar una partida anterior? (1.Si / 2.No): ";
     int cargar_partida {2};
-    cin>>cargar_partida;
+    while(true){
+            cout<<"Desea cargar una partida anterior? (1.Si / 2.No): ";
+            cin>>cargar_partida;
+            cout<<endl;
 
+            if(cargar_partida == 1 || cargar_partida == 2){
+                break;
+            }else{
+                cout<<"\033[1;31m"<<"Por favor ingrese una lo solicitado. Vueva a intentar."<<"\033[0m"<<endl;
+            }
+        }
     system("cls");
 
     if(cargar_partida == 1){
-        //Código para cargar la partida desde un archivo de texto
+        juego = cargar_juego();
     }else{
         std::string nombre_j1, nombre_j2;
 
@@ -32,7 +40,7 @@ int main() {
 
         int dimension;
         while(true){
-            cout<<"Ingrese la dimension del tablero (Número impar menor o igual a 9): ";
+            cout<<"Ingrese la dimension del tablero (Numero impar menor o igual a 9): ";
             cin>>dimension;
             cout<<endl;
             if(1<=dimension && dimension<=9 && dimension%2 != 0){
@@ -44,10 +52,10 @@ int main() {
 
         int puntos;
         while(true){
-            cout<<"Ingrese los puntos a alcanzar(Maximo 15): ";
+            cout<<"Ingrese los puntos a alcanzar(Entre 10 y 20): ";
             cin>>puntos;
             cout<<endl;
-            if(1<=puntos && puntos<=15){
+            if(10<=puntos && puntos<=20){
                 break;
             }else{
                 cout<<"\033[1;31m"<<"Por favor ingrese los puntos a alcanzar segun lo solicitado. Vueva a intentar."<<"\033[0m"<<endl;
@@ -55,7 +63,31 @@ int main() {
         }
         
         juego = new Juego(nombre_j1, nombre_j2, dimension, puntos);
-        juego->jugar();
     }
-
+    juego->jugar();
 }
+
+// int main() {    //Main para pruebas rápidas
+//     srand(time(NULL));  //Establecemos la semilla que utilizaremos para la generación de números aleatorios
+//     Juego* juego;
+//     int cargar_partida {2};
+//     while(true){
+//             cout<<"Desea cargar una partida anterior? (1.Si / 2.No): ";
+//             cin>>cargar_partida;
+//             cout<<endl;
+
+//             if(cargar_partida == 1 || cargar_partida == 2){
+//                 break;
+//             }else{
+//                 cout<<"\033[1;31m"<<"Por favor ingrese una lo solicitado. Vueva a intentar."<<"\033[0m"<<endl;
+//             }
+//         }
+//     system("cls");
+
+//     if(cargar_partida == 1){
+//         juego = cargar_juego();
+//     }else{
+//         juego = new Juego("Primero", "Segundo", 9, 15);
+//     }
+//     juego->jugar();
+// }

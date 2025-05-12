@@ -18,6 +18,8 @@ public:
     Jugador(std::string, int, int[], CartaObjetivo**);
     ~Jugador();
     void escribir_jugador(std::ofstream&);
+    Jugador* leer_jugador(std::string*);
+    
     std::string get_nombre();
     int get_puntos();
     int* get_bambus_almacenados();
@@ -26,7 +28,7 @@ public:
     void imprimir();
     void recolectar_bambu(int);
     void evaluar_panda();
-    //void evaluar_jardinero();
+    void evaluar_jardinero(int, int);
 
 };
 

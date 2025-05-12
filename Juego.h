@@ -9,9 +9,11 @@
 
 class Juego{
     private:
-    int panda[2] {-1,-1};
-    int jardinero[2] {-1,-1};
+
+    int* panda;
+    int* jardinero;    
     int* personaje {this->panda};
+
     int dimension_tablero {9};
     int espacio_texto {6};  //Necesario para imprimir el tablero
     int puntos_juego {5};
@@ -19,16 +21,15 @@ class Juego{
     bool ronda_completa {false};
     bool fin_del_juego {false};
     int accion_jugador_actual {1};
+
     Loseta*** tablero;
     Jugador* j1;
     Jugador* j2;
     Jugador* jugador_actual;
-    //int movimiento;
-    //int posiciones; atributos para movimiento
 
     public:
     Juego(std::string, std::string, int, int);
-	Juego(Jugador*, Jugador*, int, int, int, int, int, Jugador*, Loseta***);
+    Juego(int*, int*, int, int, int, bool, bool, int, Jugador*, Jugador*, Jugador*, Loseta***);
 
     ~Juego();
     void alternar_jugador();
@@ -42,9 +43,8 @@ class Juego{
     bool regar_loseta(int, int);
 
     void nueva_posicion_jardinero(int, int);
-    bool nueva_posicion_panda(int, int);
+    void nueva_posicion_panda(int, int);
     bool mover_personaje(int, int, int, int, int, bool);
-    
     
     bool realizar_accion();
     

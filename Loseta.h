@@ -2,6 +2,7 @@
 #define LOSETA_H
 
 #include <iostream>
+#include <string>
 #include <cstdlib>  //para rand
 #include <ctime>    //para time
 
@@ -16,6 +17,8 @@ public:
     Loseta(char, int, bool, int);
     ~Loseta();
     void escribir_loseta(std::ofstream&, int, int);
+
+    Loseta* leer_loseta(std::string*);
 
     char get_tipo();
     int get_color();

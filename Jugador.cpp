@@ -85,7 +85,7 @@ int Jugador::get_bambu_por_color(int color){
 }
 
 void Jugador::evaluar_panda(){
-     for (int indice = 0; indice < 4; indice++) {       // Reviso las 4 cartas del jugador
+    for (int indice = 0; indice < 4; indice++) {       // Reviso las 4 cartas del jugador
         CartaObjetivo* carta = this->cartas_jugador[indice];
         if (carta->getTipo() == 'P') {                  // Solo si es carta de tipo Panda
             bool cumplible = true;
@@ -106,24 +106,20 @@ void Jugador::evaluar_panda(){
                 // Eliminar carta cumplida y asignar una nueva
                 delete this->cartas_jugador[indice];
                 this->cartas_jugador[indice] = new CartaObjetivo('P');
-                indice = -1; 
             }
         }
     }
 }
-/*
-void Jugador::evaluar_jardinero(Loseta* jardinero){
-    for (int c = 0; c < 4; c++){
-        if (this->cartas_jugador[c]->getTipo() == 'J'){
-            if(jardinero->get_color() == this->cartas_jugador[c]->getBambuMeta()[1]){
-                if(jardinero->get_cantidad_bambu() <= this->cartas_jugador[c]->getBambuMeta()[0]){
-                    this->puntos += this->cartas_jugador[c]->getPuntaje();
-                    CartaObjetivo* borrar = this->cartas_jugador[c];
-                    this->cartas_jugador[c] = new CartaObjetivo('J');
-                    this->cartas_jugador[c]-> ~CartaObjetivo();
-                }
+
+void Jugador::evaluar_jardinero(int color, int cantidad){
+    for (int indice = 0; indice < 4; indice++) {       // Reviso las 4 cartas del jugador
+        CartaObjetivo* carta = this->cartas_jugador[indice];
+        if (carta->getTipo() == 'J') {                  // Solo si es carta de tipo Panda
+            if(carta->getBambuMeta()[1]==color && carta->getBambuMeta()[0]<=cantidad){
+                this->puntos += carta->getPuntaje();
             }
+            delete this->cartas_jugador[indice];
+            this->cartas_jugador[indice]= new CartaObjetivo('J');
         }
-    }
+    } 
 }
-*/

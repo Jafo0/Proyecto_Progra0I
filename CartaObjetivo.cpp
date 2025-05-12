@@ -68,7 +68,7 @@ void CartaObjetivo::imprimir(std::string nombre_carta){
                 break;
         }
         cout<<this->bambu_meta[0]<<"\033[0m";
-        cout<<"]\t\tEstructura: [";
+        cout<<", "<<this->bambu_meta[1]<<"]\t\tEstructura: [";
         switch(this->bambu_meta[1]) {
             case 0:
                 cout<<"\033[33m"; // Amarillo

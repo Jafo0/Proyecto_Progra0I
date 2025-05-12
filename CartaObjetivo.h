@@ -15,6 +15,7 @@ public:
     CartaObjetivo(char, int, int*);
     ~CartaObjetivo();    //Destructor de la carta
     void escribir_carta_objetivo(std::ofstream&);
+    CartaObjetivo* leer_carta_objetivo(std::string*);
 
     char getTipo();
 	int* getBambuMeta();

@@ -1,5 +1,5 @@
 #include "Juego.h"
-#include "Menu.h"
+#include "FuncionesComplementarias.H"
 
 #include <iostream>
 #include <iomanip>
@@ -12,6 +12,8 @@ using std::cin;
 using std::endl;
 
 Juego::Juego(std::string nombre_j1, std::string nombre_j2, int dimension, int puntos): dimension_tablero(dimension), puntos_juego(puntos){
+    jardinero = new int[2] {-1,-1};
+    panda = new int[2] {-1,-1};
     this->j1 = new Jugador(nombre_j1);
     this->j2 = new Jugador(nombre_j2);
     this->jugador_actual = this->j1;
@@ -38,15 +40,13 @@ Juego::Juego(std::string nombre_j1, std::string nombre_j2, int dimension, int pu
     guardar_en_archivo();
 } 
 
-// Juego::Juego(Jugador* ja, Jugador* jb, int dimension, int panda_x, int panda_y, int jardinero_x, int jardinero_y, Jugador* j_actual, Loseta*** t): j1(ja), j2(jb), dimension_tablero(dimension), jugador_actual(j_actual), tablero(t){
-// 	this->panda[0] = panda_x;
-// 	this->panda[1] = panda_y;
-// 	this->jardinero[0] = jardinero_x;
-// 	this->jardinero[1] = jardinero_y;
-// }
-/*
-Aquí va el constructor que recibe todos los atributos y los inicializa
-*/
+Juego::Juego(int* panda, int* jardinero, int dimension, int puntos, 
+             int ronda, bool ronda_completa, bool fin_del_juego, int accion_jugador_actual, 
+             Jugador* j1, Jugador* j2, Jugador* jugador_actual, Loseta*** tablero)
+             : panda(panda), jardinero(jardinero),dimension_tablero(dimension),
+               puntos_juego(puntos), ronda(ronda), ronda_completa(ronda_completa), 
+               fin_del_juego(fin_del_juego),accion_jugador_actual(accion_jugador_actual), 
+               j1(j1), j2(j2), jugador_actual(jugador_actual),tablero(tablero){}
 
 Juego::~Juego(){}
 
@@ -122,10 +122,21 @@ void Juego::mostrar_estado_del_juego(){
 
 void Juego::guardar_en_archivo(){
     std::ofstream archivo {"ArchivoJuego.txt"};
-    archivo<<"Juego,"<<this->puntos_juego<<","<<this->dimension_tablero<<","<<this->ronda<<","<<this->jugador_actual->get_nombre()<<endl;
-
+    
     this->j1->escribir_jugador(archivo);
     this->j2->escribir_jugador(archivo);
+
+    archivo<<"Panda,"<<this->panda[0]<<","<<this->panda[1]<<endl;
+    archivo<<"Jardinero,"<<this->jardinero[0]<<","<<this->jardinero[1]<<endl;
+
+    archivo<<"Juego,"<<this->dimension_tablero<<","<<
+                       this->puntos_juego<<","<<
+                       
+                       this->ronda<<","<<
+                       this->ronda_completa<<","<<
+                       this->fin_del_juego<<","<<
+                       this->accion_jugador_actual<<","<<
+                       ((this->jugador_actual == this->j1)? "1" : "2")<<endl;
 
     archivo<<"\t\tTablero:"<<endl;
     for(int i = 0; i < this->dimension_tablero; i++) {
@@ -169,14 +180,6 @@ bool Juego::comprobar_adyacencia(int i, int j, bool irrigacion){            //me
     }
     return false;
 }
-
-/*
-bool Juego::movimiento_general(int posiciones, int movimiento,int i, int j){
-    int i_actual = this->panda[0];
-    int j_actual = this->panda[1];
-    
-}
-*/
 
 bool Juego::crecer_jardin(int i, int j){
     if (i == this->dimension_tablero/2 && j == this->dimension_tablero/2){ // Si es la loseta estanque
@@ -222,8 +225,9 @@ void Juego::nueva_posicion_jardinero(int i, int j){    //En este punto, la posic
     } else{ //Si tiene menos de 9 bambús, crece uno
         this->tablero[this->jardinero[0]][this->jardinero[1]]->crecer_bambu();
     }
+    this->jugador_actual->evaluar_jardinero(this->tablero[i][j]->get_color(), this->tablero[i][j]->get_cantidad_bambu());
 }
-bool Juego::nueva_posicion_panda(int i, int j){
+void Juego::nueva_posicion_panda(int i, int j){
     this->panda[0] = i;     // Defino la nueva posición del panda
     this->panda[1] = j;
     int color = this->tablero[i][j]->get_color();                           // Veo el color de la loseta
@@ -232,10 +236,9 @@ bool Juego::nueva_posicion_panda(int i, int j){
             this->tablero[this->panda[0]][this->panda[1]]->decrecer_bambu();    // Reduzco un bambu
             this->jugador_actual->recolectar_bambu(color);      // Le sumo un bambu al jugador
             this->jugador_actual->evaluar_panda();
-            return true;
         } 
-    } 
-    return false; // Se movió, pero no comió   
+    }    
+
 }
 
 bool Juego::mover_personaje(int cantidad, int sentido, int i_temp, int j_temp, int mov_realizados, bool es_jardinero){
@@ -357,16 +360,18 @@ void Juego::revisar_ganador(){
 void Juego::jugar(){
     while(!this->fin_del_juego){
         
-        system("cls");    // Limpio la terminal
+        // system("cls");    // Limpio la terminal
         mostrar_estado_del_juego();
         while(!realizar_accion());
-        guardar_en_archivo();
-        this->accion_jugador_actual++;
-        if(accion_jugador_actual == 3){
-            alternar_jugador();
-        }
-        if(this->ronda_completa){   // Si terminamos una ronda
-            revisar_ganador();
+        if(!this->fin_del_juego){
+            this->accion_jugador_actual++;
+            if(accion_jugador_actual == 3){
+                alternar_jugador();
+            }
+            if(this->ronda_completa){   // Si terminamos una ronda
+                revisar_ganador();
+            }
+            guardar_en_archivo();
         }
     }
 }
